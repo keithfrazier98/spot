@@ -1,0 +1,130 @@
+.logo {
+  width: fit-content;
+  height: 4em;
+  border-radius: 50%;
+  background-color: black;
+  padding: 10px;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0 30px 0 0;
+}
+ul {
+  font-family: "Montserrat", sans-serif;
+  font-size: 35px;
+  font-weight: 100;
+  float: right;
+  margin: 0;
+  padding: 0;
+  -webkit-animation: scrollUp 4s ease-in-out infinite normal;
+  animation: scrollUp 4s ease-in-out infinite normal;
+}
+
+ul li {
+    opacity: 1;
+    height: 20px;
+    padding: 10px;
+    list-style: none;
+  }
+
+.box::before {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  content: "";
+  height: 10px;
+  position: absolute;
+  background: linear-gradient(180deg, #ffffff, rgba(255, 142, 113, 0));
+}
+
+.box::after {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  content: "";
+  height: 10px;
+  position: absolute;
+  background: linear-gradient(180deg, rgba(255, 142, 113, 0), #ffffff);
+}
+
+.box {
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  align-self: center;
+}
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  color: white;
+  align-self: center;
+  font-size: 40px;
+}
+
+.spotBody {
+  display: block;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  align-self: center;
+  font-size: 35px;
+  font-weight: 100;
+}
+
+header {
+  height: fit-content;
+  padding: 30px;
+  display: inline-flex;
+  position: sticky;
+}
+div > div {
+  display: flex;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+div > form {
+  margin: 30px 0 0 0;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  color: rgb(136, 136, 136);
+  font-family: "Montserrat", sans-serif;
+}
+
+input {
+  margin: 0 20px 0 20px;
+}
+
+form > button {
+  background-color: rgb(3, 3, 3);
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+
+@-webkit-keyframes scrollUp {
+  from {
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+  to {
+    -webkit-transform: translateY(-85%);
+    transform: translateY(-85%);
+  }
+}
+
+@keyframes scrollUp {
+  from {
+    -webkit-transform: translateY(-4%);
+    transform: translateY(-4%);
+  }
+  to {
+    -webkit-transform: translateY(-87.3%);
+    transform: translateY(-87.3%);
+  }
+}
