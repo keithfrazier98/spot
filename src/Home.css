@@ -20,11 +20,163 @@ ul {
 }
 
 ul li {
-    opacity: 1;
-    height: 20px;
-    padding: 10px;
-    list-style: none;
-  }
+  opacity: 1;
+  height: 20px;
+  padding: 10px;
+  list-style: none;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  color: white;
+  align-self: center;
+  font-size: 40px;
+}
+p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 200;
+  margin: 10px 20px 0 0;
+}
+
+img {
+  height: 150px;
+  width: 150px;
+  margin: 0 15px 15px 15px;
+  box-shadow: -2px 5px 10px rgb(104, 104, 104);
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  align-self: center;
+  font-size: 35px;
+  font-weight: 100;
+}
+
+header {
+  height: fit-content;
+  padding: 30px;
+  display: inline-flex;
+  position: sticky;
+}
+
+div > form {
+  margin: 30px 0 0 0;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  color: rgb(136, 136, 136);
+  font-family: "Montserrat", sans-serif;
+}
+
+input {
+  margin: 0 0 0 20px;
+}
+
+form > button {
+  background-color: rgb(3, 3, 3);
+  color: white;
+  border-radius: 3px;
+  border: none;
+  margin: 0 0 0 20px;
+}
+.spcBtw {
+  justify-content: space-between;
+}
+
+.g1 {
+  flex-grow: 1;
+}
+
+.g2 {
+  flex-grow: 2;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 20px 0;
+}
+
+.stars{
+    margin: 0 0 0 20px;
+    color: black;
+}
+
+.singleResult{
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+    background-color: rgb(207, 207, 207);
+    border-radius: 2px;
+    box-shadow: -2px 5px 5px black;
+}
+
+.resultsContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 40px 0 40px;
+  justify-content: center;
+  padding: 10px;
+  max-width: 875px;
+  align-self: center;
+}
+
+.spotBody {
+  display: block;
+}
+.resultsRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.resultsCol {
+  display: flex;
+  flex-direction: column;
+}
+
+a:link{
+    color: black;
+    text-decoration: none;
+}
+
+a:hover{
+    color:rgb(138, 78, 78)
+}
+
+a:active{
+    color:brown
+}
+
+a:visited{
+    color:brown
+
+}
+.categories, .fav {
+  width: fit-content;
+  height: fit-content;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: rgb(53, 53, 53);
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 0.75em;
+  margin: 10px 10px 0 0;
+}
+.fav{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
 
 .box::before {
   top: 0;
@@ -54,59 +206,6 @@ ul li {
   height: 40px;
   align-self: center;
 }
-h1 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 100;
-  color: white;
-  align-self: center;
-  font-size: 40px;
-}
-
-.spotBody {
-  display: block;
-}
-
-h2 {
-  font-family: "Montserrat", sans-serif;
-  align-self: center;
-  font-size: 35px;
-  font-weight: 100;
-}
-
-header {
-  height: fit-content;
-  padding: 30px;
-  display: inline-flex;
-  position: sticky;
-}
-div > div {
-  display: flex;
-  justify-content: center;
-  min-height: 70vh;
-}
-
-div > form {
-  margin: 30px 0 0 0;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  color: rgb(136, 136, 136);
-  font-family: "Montserrat", sans-serif;
-}
-
-input {
-  margin: 0 20px 0 20px;
-}
-
-form > button {
-  background-color: rgb(3, 3, 3);
-  color: white;
-  border-radius: 5px;
-  border: none;
-}
-
 @-webkit-keyframes scrollUp {
   from {
     -webkit-transform: translateY(-20%);
@@ -126,5 +225,58 @@ form > button {
   to {
     -webkit-transform: translateY(-87.3%);
     transform: translateY(-87.3%);
+  }
+}
+
+.fade-in-image {
+  animation: fadeIn 2s;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s;
+  -o-animation: fadeIn 2s;
+  -ms-animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
