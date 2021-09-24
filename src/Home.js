@@ -34,29 +34,59 @@ function Home() {
         case "name and location":
           console.log("business");
           response = await getBusinessByArea(searchData, signal);
-          console.log(response);
+          console.log(response, "response from api");
           break;
         case "phone":
-          console.log("phone");
-          response = await getBusinessByPhone(searchData.phone, signal);
-          console.log(response);
+          const filteredNumber = validateNumber(searchData.phone);
+          response = await getBusinessByPhone(filteredNumber, signal);
+          console.log(response, "response from api");
           break;
       }
     } catch (err) {
-      console.error(err);
+      console.error("setting error", err);
       setSearchError(err);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, [1000]);
+      setResponseData({
+        noResponse: err.message,
+      });
+      return () => abortController.abort();
     }
 
     if (response) {
       const lastType = searchData.type;
       setSearchData({ ...initalSearchData, ["type"]: lastType });
       setResponseData(response);
-      setSearchError(false);
-      setLoading(false);
+    } else {
+      setResponseData({
+        noResponse: response.message,
+      });
     }
 
+    setLoading(false);
+    setSearchError(false);
+
     return () => abortController.abort;
+  }
+
+  function validateNumber(phoneNumber) {
+    let disected = phoneNumber.split("");
+    let filtered = disected.filter((char) =>
+      isNaN(Number(char)) || char === " " ? null : char
+    );
+    let finalString = filtered.join("");
+
+    console.log(finalString, "finalString");
+    return finalString;
+  }
+
+  function searchErrorElement() {
+    return (
+      <div className="singleResult font400">
+        {searchError.message}
+      </div>
+    );
   }
 
   function formatSingleResult(responseData) {
@@ -256,7 +286,16 @@ function Home() {
         </div>
 
         <div className="resultsContainer">
-          {loading ? "loading..." : formatSingleResult(responseData)}
+          {loading ? (
+            <div className="lds-ripple">
+              <div></div>
+              <div></div>
+            </div>
+          ) : searchError ? (
+            searchErrorElement()
+          ) : (
+            formatSingleResult(responseData)
+          )}
         </div>
       </div>
 

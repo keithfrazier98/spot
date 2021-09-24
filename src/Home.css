@@ -7,7 +7,9 @@
   display: inline-flex;
   justify-content: center;
   margin: 0 30px 0 0;
+  box-shadow: -15px 10px 3px rgb(143, 143, 143);
 }
+
 ul {
   font-family: "Montserrat", sans-serif;
   font-size: 35px;
@@ -99,7 +101,10 @@ form > button {
   flex-direction: column;
   min-height: 70vh;
 }
-
+.font400, input, select, option{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+}
 .formContainer {
   display: flex;
   justify-content: center;
@@ -178,6 +183,7 @@ a:visited{
     align-self: center;
 }
 
+/* FADE IN ANIMATION CLASS */
 .box::before {
   top: 0;
   left: 0;
@@ -280,3 +286,37 @@ a:visited{
     opacity: 1;
   }
 }
+ /* LOADING */
+ .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid rgb(0, 0, 0);
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+  
