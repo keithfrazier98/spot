@@ -1,6 +1,12 @@
-import React, { cloneElement, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import "./Home.css";
-import { getBusinessByArea, getBusinessByPhone } from "./utils/api";
+import {
+  getAllBusinesses,
+  getAllCategories,
+  getAutocompleteSuggestions,
+  getBusinessByArea,
+  getBusinessByPhone,
+} from "./utils/api";
 
 function Home() {
   const initalSearchData = {
@@ -9,11 +15,53 @@ function Home() {
     type: "name and location",
     phone: "",
     categories: [],
+    latitude: "",
+    longitute: "",
+    open_now: false,
+    sort_by: "",
+    price: "",
+    radius: "",
   };
-  const [responseData, setResponseData] = useState(false);
+  const [businessesResponseData, setBusinessesResponseData] = useState(false);
   const [searchData, setSearchData] = useState(initalSearchData);
   const [searchError, setSearchError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [categoriesResponseData, setCategoriesResponseData] = useState(false);
+
+  useEffect(() => {
+    //loadCategories()
+    //processAutoComplete({lat:"a",lon:"b",text:"c"})
+    searchAllBusinesses();
+  }, []);
+
+  async function searchAllBusinesses() {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    const busObj = await getAllBusinesses(searchData, signal);
+    setBusinessesResponseData(busObj);
+    return () => abortController.signal;
+  }
+
+  async function loadCategories() {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    const catObj = await getAllCategories(signal);
+    setCategoriesResponseData(catObj);
+    return () => abortController.signal;
+  }
+
+  function formatCategories(responseData) {
+    if (!responseData) return;
+    const categories = responseData;
+    const parent_aliases = categories.map((cat) => cat.parent_aliases[0]);
+    console.log("parents", parent_aliases);
+    const parents = parent_aliases.map(() => {
+      return <button>{parent_aliases[0]}</button>;
+    });
+
+    //const parentsSet = new Set(parents)
+    return <p>hi</p>;
+  }
 
   function modifySearch(event) {
     const name = event.target.name;
@@ -21,6 +69,11 @@ function Home() {
     const value = event.target.value;
     console.log(name, value);
     setSearchData({ ...searchData, [name]: value });
+  }
+
+  async function processAutoComplete() {
+    getAutocompleteSuggestions().then(console.log);
+    return <p>hi</p>;
   }
 
   async function processRequest(event) {
@@ -48,7 +101,7 @@ function Home() {
       setTimeout(() => {
         setLoading(false);
       }, [1000]);
-      setResponseData({
+      setBusinessesResponseData({
         noResponse: err.message,
       });
       return () => abortController.abort();
@@ -57,9 +110,9 @@ function Home() {
     if (response) {
       const lastType = searchData.type;
       setSearchData({ ...initalSearchData, ["type"]: lastType });
-      setResponseData(response);
+      setBusinessesResponseData(response);
     } else {
-      setResponseData({
+      setBusinessesResponseData({
         noResponse: response.message,
       });
     }
@@ -82,11 +135,7 @@ function Home() {
   }
 
   function searchErrorElement() {
-    return (
-      <div className="singleResult font400">
-        {searchError.message}
-      </div>
-    );
+    return <div className="singleResult font400">{searchError.message}</div>;
   }
 
   function formatSingleResult(responseData) {
@@ -185,30 +234,30 @@ function Home() {
     return (
       <>
         <div className="singleResult">
-          <div className="resultsRow g1">
+          <div className="flexRow g1">
             <img src={image_url} alt="businessImg"></img>
-            <div className="resultsCol g2">
-              <div className="resultsRow spcBtw ">
-                <div className="resultsRow">
+            <div className="flexCol g2">
+              <div className="flexRow spcBtw ">
+                <div className="flexRow">
                   <t3>{name}</t3>
                   <div className="stars">{starRating}</div>
                 </div>
                 {<span>{price}</span>}
               </div>
-              <div className="resultsRow">
+              <div className="flexRow">
                 {categories.map((obj) => {
                   return <span className="categories">{obj.title}</span>;
                 })}
               </div>
               <p>{`${display_address}`}</p>
-              <div className="resultsRow spcBtw">
+              <div className="flexRow spcBtw">
                 <p>{<a href={`tel:${phone}`}>{phone}</a>}</p>
                 <button className="fav">
                   {"Favorite "}
                   <ion-icon name="bookmark-outline"></ion-icon>
                 </button>
               </div>
-              <div className="resultsRow"></div>
+              <div className="flexRow"></div>
             </div>
           </div>
         </div>
@@ -234,68 +283,115 @@ function Home() {
           </ul>
         </div>
       </header>
-
-      <div className="contentContainer">
-        <div className="formContainer">
-          <form onSubmit={processRequest}>
-            <select
-              name="type"
-              className="fade-in-image"
-              value={searchData.type}
-              onChange={modifySearch}
-            >
-              <option>name and location</option>
-              <option>phone</option>
-            </select>
-            {searchData.type === "name and location" ? (
-              <>
-                {" "}
-                <label htmlFor="business"></label>
-                <input
-                  className="fade-in-image"
-                  value={searchData.business}
-                  name="business"
-                  placeholder="search by name"
-                  onChange={modifySearch}
-                ></input>
-                <label htmlFor="place"></label>
-                <input
-                  className="fade-in-image"
-                  value={searchData.location}
-                  name="location"
-                  placeholder="search by location"
-                  onChange={modifySearch}
-                ></input>
-              </>
-            ) : (
-              <>
-                <input
-                  className="fade-in-image"
-                  value={searchData.phone}
-                  name="phone"
-                  placeholder="search by phone"
-                  onChange={modifySearch}
-                ></input>
-              </>
-            )}
-
-            <button type="submit" className="fade-in-image">
-              search!
-            </button>
-          </form>
+      <div className="flexRow">
+        <div className="flexCol centerVself contentContainer g3">
+          <div className="centerVself">
+            <h3>Categories</h3>
+            {/*formatCategories(categoriesResponseData)*/}
+          </div>
         </div>
+        <div className="flexCol g1">
+          <div className="contentContainer">
+            <div className="formContainer">
+              <form onSubmit={processRequest}>
+                <div className="flexCol">
+                  <div className="flexRow centerH">
+                    <label htmlFor="open_now" className="filterOption centerVself">
+                      Open now: <input name="open_now"  className="centerVself" type="checkbox"></input>
+                    </label>{" "}
+                    <label htmlFor="price" className="filterOption centerVself">
+                      Price:
+                    </label>
+                    <select name="price">
+                      <option>$</option>
+                      <option>$$</option>
+                      <option>$$$</option>
+                      <option>$$$$</option>
+                    </select>
+                    <label htmlFor="radius" className="filterOption">
+                      Distance
+                    </label>
+                    <select name="radius">
+                      <option>5 miles</option>
+                      <option>10 miles</option>
+                      <option>15 miles</option>
+                      <option>20 miles</option>
+                      <option>25 miles</option>
+                    </select>
+                  </div>
+                  <div className="flexRow">
+                    <select
+                      name="type"
+                      className="fade-in-image"
+                      value={searchData.type}
+                      onChange={modifySearch}
+                    >
+                      <option>name and location</option>
+                      <option>phone</option>
+                    </select>
+                    {searchData.type === "name and location" ? (
+                      <>
+                        {" "}
+                        <label htmlFor="business"></label>
+                        <input
+                          className="fade-in-image"
+                          value={searchData.business}
+                          name="business"
+                          placeholder="search by name"
+                          onChange={modifySearch}
+                        ></input>
+                        <label htmlFor="place"></label>
+                        <input
+                          className="fade-in-image"
+                          value={searchData.location}
+                          name="location"
+                          placeholder="search by location"
+                          onChange={modifySearch}
+                        ></input>
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          className="fade-in-image"
+                          value={searchData.phone}
+                          name="phone"
+                          placeholder="search by phone"
+                          onChange={modifySearch}
+                        ></input>
+                      </>
+                    )}
 
-        <div className="resultsContainer">
-          {loading ? (
-            <div className="lds-ripple">
-              <div></div>
-              <div></div>
+                    <button type="submit" className="fade-in-image">
+                      search!
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-          ) : searchError ? (
-            searchErrorElement()
-          ) : (
-            formatSingleResult(responseData)
-          )}
+
+            <div className="resultsContainer">
+              {loading ? (
+                <div className="lds-ripple">
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : searchError ? (
+                searchErrorElement()
+              ) : businessesResponseData &&
+                businessesResponseData.length > 1 ? (
+                businessesResponseData.forEach((responseData) => {
+                  formatSingleResult(responseData);
+                })
+              ) : (
+                formatSingleResult(businessesResponseData)
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flexCol contentContainer g3">
+          <div className="centerVself">
+            <h3>Your Favorites!</h3>
+          </div>
         </div>
       </div>
 

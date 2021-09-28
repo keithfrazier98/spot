@@ -22,37 +22,52 @@ headers.append("Content-Type", "application/json");
  *  a promise that resolves to the `json` data or an error.
  *  If the response is not in the 200 - 399 range the promise is rejected.
  */
- async function fetchJson(url, options, onCancel) {
-    try {
-      const response = await fetch(url, options);
-      if (response.status === 204) {
-        return null;
-      }
-  
-      const payload = await response.json();
-      if (payload.error) {
-        return Promise.reject({ message: payload.error });
-      }
-      return payload.data;
-    } catch (error) {
-      if (error.name !== "AbortError") {
-        console.error(error.stack);
-        throw error;
-      }
-      return Promise.resolve(onCancel);
+async function fetchJson(url, options, onCancel) {
+  try {
+    const response = await fetch(url, options);
+    if (response.status === 204) {
+      return null;
     }
-  }
 
-  
-  export async function getBusinessByArea ({business, location}, signal){
-      console.log(business, location, "get business by area")
-    const url = new URL(`${API_BASE_URL}/businesses?business=${business}&location=${location}`)
+    const payload = await response.json();
+    if (payload.error) {
+      return Promise.reject({ message: payload.error });
+    }
+    return payload.data;
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      console.error(error.stack);
+      throw error;
+    }
+    return Promise.resolve(onCancel);
+  }
+}
+
+export async function getBusinessByArea({ business, location }, signal) {
+  const url = new URL(
+    `${API_BASE_URL}/businesses?business=${business}&location=${location}`
+  );
+  return await fetchJson(url, signal);
+}
+
+export async function getBusinessByPhone(phone, signal) {
+  const url = new URL(`${API_BASE_URL}/businesses?phone=${phone}`);
+  return await fetchJson(url, signal);
+}
+
+export async function getAllCategories(signal) {
+  const url = new URL(`${API_BASE_URL}/categories`);
+  return await fetchJson(url, signal);
+}
+
+export async function getAutocompleteSuggestions(params, signal){
+    //const {lat ="a", lon="b", text="b", loc = "en_US" } = params
+    //?lat=${lat}&lon=${lon}&text=${text}&loc=${loc}
+    const url = new URL(`${API_BASE_URL}/autocomplete`)
     return await fetchJson(url, signal)
-  }
+}
 
-  export async function getBusinessByPhone(phone, signal){
-      console.log(phone, "get business by phone")
-    const url = new URL(`${API_BASE_URL}/businesses?phone=${phone}`)
-    return await fetchJson(url, signal)
-  }
-
+export async function getAllBusinesses(params, signal){
+    const {latitude, longitute, open_now, location,price,sort_by,radius} = params
+    const url = new URL (`${API_BASE_URL}/search`)
+}
