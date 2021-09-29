@@ -61,26 +61,15 @@ form > button {
   margin: 0 0 0 20px;
 }
 
-button{
+button {
   height: 40px;
   align-self: center;
 }
+
+ul {
+  padding: 0px !important;
+}
 /* CLASS BASED STYLES */
-
-.ulSlideIn {
-  -webkit-animation: 1s linear 0s 1 normal slidein;
-  animation: 1s linear 0s 1 normal slidein;
-}
-
-.ulSlideOut{
-  -webkit-animation: 1s linear 0s 1 reverse slidein;
-  animation: 1s linear 0s 1 reverse slidein;
-  visibility: hidden;
-}
-
-.filterDiv{
-  overflow: hidden;
-}
 
 .ulScroll {
   font-family: "Montserrat", sans-serif;
@@ -134,16 +123,41 @@ button{
   flex-grow: 3;
 }
 
-.filterList {
+.catButton {
+  min-width: 100%;
+}
+
+.catItem {
+  min-width: 75%;
+}
+
+.divScroll{
+  overflow: scroll;
+  height: 60vh;
+}
+
+.catListDiv {
+  height: 60vh;
+  overflow: hidden;
+  width: 75%;
+  position: relative;
+  align-self: center;
+  
+}
+
+.filterList,
+.catList {
   list-style: none;
 }
 
 .filterItem {
-  display: inline;
+  display: inline-flex;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .filterOption {
-  margin: 0 20px 20px 20px;
+  margin: auto auto auto 20px;
 }
 
 .contentContainer {
@@ -151,23 +165,30 @@ button{
   flex-direction: column;
   min-height: 70vh;
 }
+
 .font400,
 input,
 select,
-option {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 200;
+option,
+label,
+button {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 300;
+  padding: 0px;
 }
 
-input,
 select,
 option {
-  height: 35px;
+  height: 40px;
 }
+
+input {
+  height: 36.03px;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;
-  margin: 0 0 20px 0;
 }
 
 .stars {
@@ -246,6 +267,28 @@ a:visited {
   align-self: center;
 }
 /* ANIMATION STYLES */
+
+.catListDiv::before {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(180deg, #ffffff, rgba(255, 142, 113, 0));
+}
+.catListDiv::after {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(180deg, rgba(255, 142, 113, 0), #ffffff);
+}
+
 /* FADE IN ANIMATION CLASS */
 .box::before {
   top: 0;
@@ -297,7 +340,7 @@ a:visited {
   }
 }
 
-@keyframes slidein {
+@keyframes slideIn {
   from {
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
@@ -305,6 +348,17 @@ a:visited {
   to {
     -webkit-transform: translateX(0%);
     transform: translateX(0%);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
 
