@@ -1,21 +1,4 @@
 /*CSS SELECTOR STYLES*/
-ul {
-  font-family: "Montserrat", sans-serif;
-  font-size: 35px;
-  font-weight: 100;
-  float: right;
-  margin: 0;
-  padding: 0;
-  -webkit-animation: scrollUp 4s ease-in-out infinite normal;
-  animation: scrollUp 4s ease-in-out infinite normal;
-}
-
-ul li {
-  opacity: 1;
-  height: 20px;
-  padding: 10px;
-  list-style: none;
-}
 
 h1 {
   font-family: "Montserrat", sans-serif;
@@ -31,9 +14,9 @@ h2 {
   font-weight: 100;
 }
 
-h3{
-    font-family: "Montserrat", sans-serif;
-    font-weight: 300;
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
 }
 p {
   font-family: "Montserrat", sans-serif;
@@ -77,7 +60,45 @@ form > button {
   border: none;
   margin: 0 0 0 20px;
 }
+
+button{
+  height: 40px;
+  align-self: center;
+}
 /* CLASS BASED STYLES */
+
+.ulSlideIn {
+  -webkit-animation: 1s linear 0s 1 normal slidein;
+  animation: 1s linear 0s 1 normal slidein;
+}
+
+.ulSlideOut{
+  -webkit-animation: 1s linear 0s 1 reverse slidein;
+  animation: 1s linear 0s 1 reverse slidein;
+  visibility: hidden;
+}
+
+.filterDiv{
+  overflow: hidden;
+}
+
+.ulScroll {
+  font-family: "Montserrat", sans-serif;
+  font-size: 35px;
+  font-weight: 100;
+  float: right;
+  margin: 0;
+  padding: 0;
+  -webkit-animation: scrollUp 4s ease-in-out infinite normal;
+  animation: scrollUp 4s ease-in-out infinite normal;
+}
+
+.liScroll {
+  opacity: 1;
+  height: 20px;
+  padding: 10px;
+  list-style: none;
+}
 .logo {
   width: fit-content;
   height: 4em;
@@ -94,11 +115,11 @@ form > button {
   justify-content: space-between;
 }
 .centerVself {
-    align-self: center;
+  align-self: center;
 }
 
-.centerH{
-    justify-content: center;
+.centerH {
+  justify-content: center;
 }
 
 .g1 {
@@ -111,6 +132,18 @@ form > button {
 
 .g3 {
   flex-grow: 3;
+}
+
+.filterList {
+  list-style: none;
+}
+
+.filterItem {
+  display: inline;
+}
+
+.filterOption {
+  margin: 0 20px 20px 20px;
 }
 
 .contentContainer {
@@ -143,17 +176,13 @@ option {
 }
 
 .singleResult {
-  width: fit-content;
-  height: fit-content;
+  min-width: 614px;
+  max-width: 650px;
   padding: 15px;
   background-color: rgb(207, 207, 207);
   border-radius: 2px;
   box-shadow: -2px 5px 5px black;
-}
-
-.filterOption {
-    margin: 0 20px 20px 20px;
-    display: flex;
+  margin: 0 0 20px 0;
 }
 
 .resultsContainer {
@@ -265,6 +294,17 @@ a:visited {
   to {
     -webkit-transform: translateY(-87.3%);
     transform: translateY(-87.3%);
+  }
+}
+
+@keyframes slidein {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
   }
 }
 

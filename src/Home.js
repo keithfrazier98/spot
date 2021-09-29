@@ -16,22 +16,24 @@ function Home() {
     phone: "",
     categories: [],
     latitude: "",
-    longitute: "",
+    longitude: "",
     open_now: false,
     sort_by: "",
     price: "",
-    radius: "",
+    radius: 8046,
+    term: "",
+    near_me: false,
   };
   const [businessesResponseData, setBusinessesResponseData] = useState(false);
   const [searchData, setSearchData] = useState(initalSearchData);
   const [searchError, setSearchError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categoriesResponseData, setCategoriesResponseData] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
 
   useEffect(() => {
     //loadCategories()
     //processAutoComplete({lat:"a",lon:"b",text:"c"})
-    searchAllBusinesses();
   }, []);
 
   async function searchAllBusinesses() {
@@ -63,12 +65,79 @@ function Home() {
     return <p>hi</p>;
   }
 
+  function getCoords(event) {
+    if (event.target.checked) {
+      if (navigator.geolocation) {
+        console.log("setting coordinates");
+        navigator.geolocation.getCurrentPosition((result) => {
+          setSearchData({
+            ...searchData,
+            latitude: result.coords.latitude,
+            longitude: result.coords.longitude,
+            near_me: true,
+          });
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    } else {
+      setSearchData({
+        ...searchData,
+        latitude: "",
+        longitude: "",
+        near_me: false,
+      });
+    }
+
+    //console.log(coords.latitude, coords.longitude);
+  }
+
   function modifySearch(event) {
     const name = event.target.name;
     if (name === "type") setLoading(false);
     const value = event.target.value;
-    console.log(name, value);
-    setSearchData({ ...searchData, [name]: value });
+
+    //term set when business is set, term will always be business
+    name === "business"
+      ? setSearchData({ ...searchData, ["term"]: value, [name]: value })
+      : setSearchData({ ...searchData, [name]: value });
+  }
+
+  function modifyRadius(event) {
+    const value = event.target.value;
+    const milesArr = [value[0], value[1]];
+    const milesNum = Number(milesArr.join(""));
+    console.log(milesNum);
+    console.log(Math.trunc(1609.344 * milesNum));
+    if (milesArr[0] === "5") {
+      setSearchData({ ...searchData, ["radius"]: "8046.72" });
+    } else {
+      //setSearchData({...searchData,["radius"]: (Math.trunc(1,609.344 * Number(miles.join(""))))})
+    }
+  }
+
+  function modifyPrice(event) {
+    let price;
+    switch (event.target.value) {
+      case "$":
+        price = "1";
+        break;
+      case "$$":
+        price = "1,2";
+        break;
+      case "$$$":
+        price = "1,2,3";
+        break;
+      case "$$$$":
+        price = "1,2,3,4";
+        break;
+    }
+
+    setSearchData({ ...searchData, ["price"]: price });
+  }
+
+  function modifyOpenNow(event) {
+    setSearchData({ ...searchData, ["open_now"]: !searchData.open_now });
   }
 
   async function processAutoComplete() {
@@ -85,18 +154,20 @@ function Home() {
     try {
       switch (searchData.type) {
         case "name and location":
-          console.log("business");
-          response = await getBusinessByArea(searchData, signal);
-          console.log(response, "response from api");
+          //this was getBusinessByArea, switched to search all businesses
+          console.log(searchData);
+          response = await getAllBusinesses(searchData, signal);
+          response = JSON.parse(response);
+          setBusinessesResponseData(response.businesses);
           break;
         case "phone":
           const filteredNumber = validateNumber(searchData.phone);
           response = await getBusinessByPhone(filteredNumber, signal);
-          console.log(response, "response from api");
+          response = JSON.parse(response);
+          setBusinessesResponseData(response);
           break;
       }
     } catch (err) {
-      console.error("setting error", err);
       setSearchError(err);
       setTimeout(() => {
         setLoading(false);
@@ -105,16 +176,6 @@ function Home() {
         noResponse: err.message,
       });
       return () => abortController.abort();
-    }
-
-    if (response) {
-      const lastType = searchData.type;
-      setSearchData({ ...initalSearchData, ["type"]: lastType });
-      setBusinessesResponseData(response);
-    } else {
-      setBusinessesResponseData({
-        noResponse: response.message,
-      });
     }
 
     setLoading(false);
@@ -140,16 +201,13 @@ function Home() {
 
   function formatSingleResult(responseData) {
     if (!responseData) return;
-
-    responseData = JSON.parse(responseData);
-
     const { image_url, name, categories, location, phone, price, rating } =
       responseData;
 
     const { display_address } = location;
     let starRating;
 
-    console.log(rating);
+    console.log(responseData);
     switch (rating) {
       case 1:
         starRating = <ion-icon name="star"></ion-icon>;
@@ -229,7 +287,6 @@ function Home() {
         );
         break;
     }
-    console.log(starRating);
 
     return (
       <>
@@ -273,13 +330,13 @@ function Home() {
         </div>
         <h2>find your favorite</h2>
         <div className="box">
-          <ul>
-            <li className="item-1">spot</li>
-            <li className="item-2">doctor</li>
-            <li className="item-3">bar</li>
-            <li className="item-4">dojo</li>
-            <li className="item-5">library</li>
-            <li className="item-6">spot</li>
+          <ul className="ulScroll">
+            <li className="item-1 liScroll">spot</li>
+            <li className="item-2 liScroll">doctor</li>
+            <li className="item-3 liScroll">bar</li>
+            <li className="item-4 liScroll">dojo</li>
+            <li className="item-5 liScroll">library</li>
+            <li className="item-6 liScroll">spot</li>
           </ul>
         </div>
       </header>
@@ -295,30 +352,77 @@ function Home() {
             <div className="formContainer">
               <form onSubmit={processRequest}>
                 <div className="flexCol">
-                  <div className="flexRow centerH">
-                    <label htmlFor="open_now" className="filterOption centerVself">
-                      Open now: <input name="open_now"  className="centerVself" type="checkbox"></input>
-                    </label>{" "}
-                    <label htmlFor="price" className="filterOption centerVself">
-                      Price:
-                    </label>
-                    <select name="price">
-                      <option>$</option>
-                      <option>$$</option>
-                      <option>$$$</option>
-                      <option>$$$$</option>
-                    </select>
-                    <label htmlFor="radius" className="filterOption">
-                      Distance
-                    </label>
-                    <select name="radius">
-                      <option>5 miles</option>
-                      <option>10 miles</option>
-                      <option>15 miles</option>
-                      <option>20 miles</option>
-                      <option>25 miles</option>
-                    </select>
+                  <div className="flexRow">
+                    <button
+                      role="button"
+                      type="button"
+                      onClick={() => {
+                        setOpenFilters(!openFilters);
+                      }}
+                      className="fadeInImage"
+                    >
+                      Filters{" "}
+                      {openFilters ? (
+                        <ion-icon name="chevron-forward-outline"></ion-icon>
+                      ) : (
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                      )}
+                    </button>
+                    <div className="filterDiv">
+                      <ul
+                        className={`filterList ${
+                          openFilters ? "ulSlideIn" : "ulSlideOut"
+                        }`}
+                      >
+                        <li className="filterItem">
+                          <label htmlFor="coords">
+                            Near me
+                            <input
+                              name="coords"
+                              className=""
+                              type="checkbox"
+                              onChange={getCoords}
+                            ></input>
+                          </label>
+                        </li>
+                        <li className="filterItem">
+                          <label htmlFor="open_now" className="filterOption">
+                            Open now
+                            <input
+                              name="open_now"
+                              className=""
+                              type="checkbox"
+                              onChange={modifyOpenNow}
+                            ></input>
+                          </label>
+                        </li>
+                        <li className="filterItem">
+                          <label htmlFor="price" className="filterOption">
+                            Price{"   "}
+                            <select name="price" onChange={modifyPrice}>
+                              <option>$</option>
+                              <option>$$</option>
+                              <option>$$$</option>
+                              <option>$$$$</option>
+                            </select>
+                          </label>
+                        </li>
+                        <li className="filterItem">
+                          <label htmlFor="radius" className="filterOption">
+                            Distance{"   "}
+                            <select name="radius" onChange={modifyRadius}>
+                              <option>5 miles</option>
+                              <option>10 miles</option>
+                              <option>15 miles</option>
+                              <option>20 miles</option>
+                              <option>25 miles</option>
+                            </select>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
+
                   <div className="flexRow">
                     <select
                       name="type"
@@ -343,10 +447,15 @@ function Home() {
                         <label htmlFor="place"></label>
                         <input
                           className="fade-in-image"
-                          value={searchData.location}
+                          value={
+                            searchData.near_me
+                              ? "checking near you"
+                              : searchData.location
+                          }
                           name="location"
                           placeholder="search by location"
                           onChange={modifySearch}
+                          disabled={searchData.near_me}
                         ></input>
                       </>
                     ) : (
@@ -378,10 +487,10 @@ function Home() {
               ) : searchError ? (
                 searchErrorElement()
               ) : businessesResponseData &&
-                businessesResponseData.length > 1 ? (
-                businessesResponseData.forEach((responseData) => {
-                  formatSingleResult(responseData);
-                })
+                Array.isArray(businessesResponseData) ? (
+                businessesResponseData.map((responseDataPoint, index) =>
+                  formatSingleResult(responseDataPoint)
+                )
               ) : (
                 formatSingleResult(businessesResponseData)
               )}

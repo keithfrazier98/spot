@@ -60,14 +60,26 @@ export async function getAllCategories(signal) {
   return await fetchJson(url, signal);
 }
 
-export async function getAutocompleteSuggestions(params, signal){
-    //const {lat ="a", lon="b", text="b", loc = "en_US" } = params
-    //?lat=${lat}&lon=${lon}&text=${text}&loc=${loc}
-    const url = new URL(`${API_BASE_URL}/autocomplete`)
-    return await fetchJson(url, signal)
+export async function getAutocompleteSuggestions(params, signal) {
+  //const {lat ="a", lon="b", text="b", loc = "en_US" } = params
+  //?lat=${lat}&lon=${lon}&text=${text}&loc=${loc}
+  const url = new URL(`${API_BASE_URL}/autocomplete`);
+  return await fetchJson(url, signal);
 }
 
-export async function getAllBusinesses(params, signal){
-    const {latitude, longitute, open_now, location,price,sort_by,radius} = params
-    const url = new URL (`${API_BASE_URL}/search`)
+export async function getAllBusinesses(params, signal) {
+  const {
+    latitude,
+    longitude,
+    open_now,
+    location,
+    price,
+    sort_by,
+    radius,
+    term,
+  } = params;
+  const url = new URL(
+    `${API_BASE_URL}/businesses/search?latitude=${latitude}&longitude=${longitude}&open_now=${open_now}&location=${location}&price=${price}&sort_by=${sort_by}&radius=${radius}&term=${term}`
+  );
+  return await fetchJson(url, signal);
 }
