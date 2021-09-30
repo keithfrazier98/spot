@@ -185,7 +185,6 @@ function SearchBar({
               <option>10 miles</option>
               <option>15 miles</option>
               <option>20 miles</option>
-              <option>25 miles</option>
             </select>
           </li>
         </ul>
