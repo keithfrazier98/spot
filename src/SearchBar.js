@@ -1,45 +1,14 @@
 import React from "react";
-import { getBusinessByPhone, getAllBusinesses, getAutocompleteSuggestions } from "./utils/api";
+import { getAutocompleteSuggestions } from "./utils/api";
 
 function SearchBar({
   searchData,
   setSearchData,
   setLoading,
-  setBusinessesResponseData,
-  setSearchError,
+  getCoords,
+  processRequest,
+  loading
 }) {
-  async function processAutoComplete() {
-    getAutocompleteSuggestions().then(console.log);
-    return <p>hi</p>;
-  }
-
-  function getCoords(event) {
-    if (event.target.checked) {
-      if (navigator.geolocation) {
-        console.log("setting coordinates");
-        navigator.geolocation.getCurrentPosition((result) => {
-          setSearchData({
-            ...searchData,
-            latitude: result.coords.latitude,
-            longitude: result.coords.longitude,
-            near_me: true,
-          });
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    } else {
-      setSearchData({
-        ...searchData,
-        latitude: "",
-        longitude: "",
-        near_me: false,
-      });
-    }
-
-    //console.log(coords.latitude, coords.longitude);
-  }
-
   function modifySearch(event) {
     const name = event.target.name;
     if (name === "type") setLoading(false);
@@ -93,65 +62,19 @@ function SearchBar({
     setSearchData({ ...searchData, ["open_now"]: !searchData.open_now });
   }
 
-  function validateNumber(phoneNumber) {
-    let disected = phoneNumber.split("");
-    let filtered = disected.filter((char) =>
-      isNaN(Number(char)) || char === " " ? null : char
-    );
-    let finalString = filtered.join("");
-
-    console.log(finalString, "finalString");
-    return finalString;
-  }
-
-  async function processRequest(event) {
-    event.preventDefault();
-    setLoading(true);
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    let response;
-    try {
-      switch (searchData.type) {
-        case "name and location":
-          //this was getBusinessByArea, switched to search all businesses
-          console.log(searchData);
-          response = await getAllBusinesses(searchData, signal);
-          response = JSON.parse(response);
-          setBusinessesResponseData(response.businesses);
-          break;
-        case "phone":
-          const filteredNumber = validateNumber(searchData.phone);
-          response = await getBusinessByPhone(filteredNumber, signal);
-          response = JSON.parse(response);
-          setBusinessesResponseData(response);
-          break;
-        default:
-          console.error("SearchBar: default case occured, something is wrong.");
-
-          break;
-      }
-    } catch (err) {
-      setSearchError(err);
-      setTimeout(() => {
-        setLoading(false);
-      }, [1000]);
-      setBusinessesResponseData({
-        noResponse: err.message,
-      });
-      return () => abortController.abort();
-    }
-
-    setLoading(false);
-    setSearchError(false);
-
-    return () => abortController.abort;
-  }
-
   return (
     <>
       <div className="formContainer">
-        <form onSubmit={processRequest}>
+        <form onSubmit={loading ? (event) => {event.preventDefault()} :processRequest }>
           <div className="flexCol">
+            <div className="flexRow spcBtw menuBtns">
+              <button className="catMenuBtn">
+                <ion-icon name="list-outline"></ion-icon>
+              </button>
+              <button className="favMenuBtn">
+                <ion-icon name="star-outline"></ion-icon>
+              </button>
+            </div>
             <div className="flexRow">
               <select
                 name="type"
@@ -173,15 +96,16 @@ function SearchBar({
                     placeholder="search by name"
                     onChange={modifySearch}
                   ></input>
-                  <label htmlFor="place"></label>
+                  <label htmlFor="location"></label>
                   <input
                     className="fade-in-image"
                     value={
-                      searchData.near_me
+                      searchData.latitude && searchData.longitute
                         ? "checking near you"
                         : searchData.location
                     }
                     name="location"
+                    id="location"
                     placeholder="search by location"
                     onChange={modifySearch}
                     disabled={searchData.near_me}
@@ -199,7 +123,7 @@ function SearchBar({
                 </>
               )}
 
-              <button type="submit" className="fade-in-image">
+              <button type="submit" id="search" className="fade-in-image">
                 search!
               </button>
             </div>
@@ -216,7 +140,12 @@ function SearchBar({
             >
               Near me
             </label>
-            <input name="coords" type="checkbox" onChange={getCoords}></input>
+            <input
+              name="coords"
+              id="coords"
+              type="checkbox"
+              onChange={getCoords}
+            ></input>
           </li>
           <li className="filterItem">
             <label htmlFor="open_now" className="filterOption">

@@ -3,11 +3,11 @@ import React from "react";
 function Results({
   loading,
   loadingRipple,
-  searchError,
-  searchErrorElement,
+  userMessage,
+  userMessageElement,
   businessesResponseData,
+  addFavorite,
 }) {
-
   function formatSingleResult(responseData) {
     if (!responseData) return;
     const { image_url, name, categories, location, phone, price, rating } =
@@ -16,7 +16,6 @@ function Results({
     const { display_address } = location;
     let starRating;
 
-    console.log(responseData);
     switch (rating) {
       case 1:
         starRating = <ion-icon name="star"></ion-icon>;
@@ -102,11 +101,12 @@ function Results({
         break;
     }
 
+    const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`
     return (
       <>
         <div className="singleResult">
           <div className="flexRow g1">
-            <img src={image_url} alt="businessImg"></img>
+            <img src={image_url} className="mainImg" alt="businessImg"></img>
             <div className="flexCol g2">
               <div className="flexRow spcBtw ">
                 <div className="flexRow">
@@ -123,9 +123,16 @@ function Results({
               <p>{`${display_address}`}</p>
               <div className="flexRow spcBtw">
                 <p>{<a href={`tel:${phone}`}>{phone}</a>}</p>
-                <button className="fav">
-                  {"Favorite "}
-                  <ion-icon name="bookmark-outline"></ion-icon>
+                <button
+                  className="fav"
+                  onClick={addFavorite}
+                  data-basic-data={basicData}
+                  >
+                  <ion-icon
+                    className="centerH"
+                    name="bookmark-outline"
+                    data-basic-data={basicData}
+                    ></ion-icon>
                 </button>
               </div>
               <div className="flexRow"></div>
@@ -140,8 +147,8 @@ function Results({
     <div className="resultsContainer">
       {loading
         ? loadingRipple
-        : searchError
-        ? searchErrorElement()
+        : userMessage
+        ? userMessageElement()
         : businessesResponseData && Array.isArray(businessesResponseData)
         ? businessesResponseData.map((responseDataPoint) =>
             formatSingleResult(responseDataPoint)

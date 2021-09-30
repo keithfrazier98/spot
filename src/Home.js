@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Categories from "./Categories.js";
 import Favorites from "./Favorites.js";
 import Results from "./Results.js";
 import SearchBar from "./SearchBar.js";
+import { getAllBusinesses, getBusinessByPhone } from "./utils/api.js";
 import "./Home.css";
-
 
 function Home() {
   const initalSearchData = {
@@ -12,7 +12,6 @@ function Home() {
     location: "",
     type: "name and location",
     phone: "",
-    categories: [],
     latitude: "",
     longitude: "",
     open_now: false,
@@ -24,21 +23,135 @@ function Home() {
   };
   const [businessesResponseData, setBusinessesResponseData] = useState(false);
   const [searchData, setSearchData] = useState(initalSearchData);
-  const [searchError, setSearchError] = useState(false);
+  const [userMessage, setUserMessage] = useState({
+    message: "Your search results will show up here!",
+  });
   const [loading, setLoading] = useState(false);
   const [categoriesResponseData, setCategoriesResponseData] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
+  useEffect(() => {
+    console.log(searchData.near_me);
+    if (searchData.near_me === false) {
+      setLoading(true);
+      getCoords();
+      document.getElementById("coords").checked = true;
+    }
+  }, []);
 
+  function getCoords() {
+    setLoading(true);
+    const abortController = new AbortController
+      if (!searchData.near_me) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((result) => {
+            setSearchData(
+              {
+                ...searchData,
+                latitude: result.coords.latitude,
+                longitude: result.coords.longitude,
+                near_me: true,
+              },
+              setLoading(false)
+            );
+          });
+        } else {
+          setUserMessage("Geolocation is not supported by this browser.");
+        }
+      } else {
+        console.log("resetting geolocation");
+        setSearchData({
+          ...searchData,
+          latitude: "",
+          longitude: "",
+          near_me: false,
+        });
+        setLoading(false);
+      }
 
-
-
-
-
-  function searchErrorElement() {
-    return <div className="singleResult font400">{searchError.message}</div>;
+    
+    return () => abortController.abort()
   }
 
-  
+  function validateNumber(phoneNumber) {
+    let disected = phoneNumber.split("");
+    let filtered = disected.filter((char) =>
+      isNaN(Number(char)) || char === " " ? null : char
+    );
+    let finalString = filtered.join("");
+    return finalString;
+  }
+
+  async function processRequest(event) {
+    if (event && event.target) event.preventDefault();
+    setLoading(true);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    let response;
+    try {
+      switch (searchData.type) {
+        case "name and location":
+          //this was getBusinessByArea, switched to search all businesses
+          if (event.category) {
+            response = await getAllBusinesses(
+              { ...searchData, ["term"]: event.category },
+              signal
+            );
+          } else {
+            response = await getAllBusinesses(searchData, signal);
+          }
+          response = JSON.parse(response);
+          setBusinessesResponseData(response.businesses);
+          break;
+        case "phone":
+          const filteredNumber = validateNumber(searchData.phone);
+          response = await getBusinessByPhone(filteredNumber, signal);
+          response = JSON.parse(response);
+          setBusinessesResponseData(response);
+          break;
+        default:
+          console.error("SearchBar: default case occured, something is wrong.");
+
+          break;
+      }
+    } catch (err) {
+      setUserMessage(err);
+      setTimeout(() => {
+        setLoading(false);
+      }, [1000]);
+      setBusinessesResponseData({
+        noResponse: err.message,
+      });
+      return () => abortController.abort();
+    }
+
+    setLoading(false);
+    setUserMessage(false);
+
+    return () => abortController.abort;
+  }
+
+  function userMessageElement() {
+    return <div className="singleResult font300">{userMessage.message}</div>;
+  }
+
+  function addFavorite(event) {
+    const data = event.target.dataset.basicData;
+    const json = JSON.parse(data);
+    if (!favorites.includes(json)) {
+      const newFavorites = [json];
+      newFavorites.push(...favorites);
+      setFavorites(newFavorites);
+    }
+  }
+
+  function deleteFavorite(event){
+    const index = event.target.id
+    const newFavorites = [...favorites]
+    newFavorites.splice(index,1)
+    setFavorites(newFavorites)
+  }
+
   const loadingRipple = (
     <>
       <div className="lds-ripple">
@@ -71,28 +184,36 @@ function Home() {
           categoriesResponseData={categoriesResponseData}
           loadingRipple={loadingRipple}
           setCategoriesResponseData={setCategoriesResponseData}
+          searchData={searchData}
+          getCoords={getCoords}
+          setSearchData={setSearchData}
+          processRequest={processRequest}
+          setUserMessage={setUserMessage}
         />
-        <div className="flexCol g1">
+        <div className="resultsContainer">
           <div className="contentContainer">
             <SearchBar
               searchData={searchData}
               setSearchData={setSearchData}
               setLoading={setLoading}
               setBusinessesResponseData={setBusinessesResponseData}
-              setSearchError={setSearchError}
+              setUserMessage={setUserMessage}
+              getCoords={getCoords}
+              loading={loading}
+              processRequest={processRequest}
             />
             <Results
               loading={loading}
               loadingRipple={loadingRipple}
-              searchError={searchError}
-              searchErrorElement={searchErrorElement}
+              userMessage={userMessage}
+              userMessageElement={userMessageElement}
               businessesResponseData={businessesResponseData}
+              addFavorite={addFavorite}
             />
           </div>
         </div>
-        <Favorites />
+        <Favorites favorites={favorites} deleteFavorite={deleteFavorite} />
       </div>
-
       <footer>powered by yelp-fusion</footer>
     </div>
   );

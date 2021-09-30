@@ -21,21 +21,13 @@ h3 {
 p {
   font-family: "Montserrat", sans-serif;
   font-weight: 200;
-  margin: 10px 20px 0 0;
-}
-
-img {
-  height: 150px;
-  width: 150px;
-  margin: 0 15px 15px 15px;
-  box-shadow: -2px 5px 10px rgb(104, 104, 104);
+  margin: 10px;
 }
 
 header {
   height: fit-content;
   padding: 30px;
   display: inline-flex;
-  position: sticky;
 }
 
 div > form {
@@ -59,17 +51,30 @@ form > button {
   border-radius: 3px;
   border: none;
   margin: 0 0 0 20px;
-}
-
-button {
-  height: 40px;
   align-self: center;
+  height: 40px;
 }
 
 ul {
   padding: 0px !important;
 }
 /* CLASS BASED STYLES */
+
+.mainImg,
+.favImg {
+  margin: 0 15px 15px 15px;
+  box-shadow: -2px 5px 10px rgb(104, 104, 104);
+}
+
+.favImg {
+  height: 100px;
+  width: 100px;
+}
+
+.mainImg {
+  height: 150px;
+  width: 150px;
+}
 
 .ulScroll {
   font-family: "Montserrat", sans-serif;
@@ -124,6 +129,7 @@ ul {
 }
 
 .catButton {
+  height: 40px;
   min-width: 100%;
 }
 
@@ -131,7 +137,7 @@ ul {
   min-width: 75%;
 }
 
-.divScroll{
+.divScroll {
   overflow: scroll;
   height: 60vh;
 }
@@ -139,10 +145,16 @@ ul {
 .catListDiv {
   height: 60vh;
   overflow: hidden;
-  width: 75%;
+  max-width: 65%;
   position: relative;
   align-self: center;
-  
+}
+.catMessage {
+  max-width: 65%;
+  height: fit-content;
+  overflow: hidden;
+  font-size: 0.75em;
+  text-align: center;
 }
 
 .filterList,
@@ -160,13 +172,110 @@ ul {
   margin: auto auto auto 20px;
 }
 
+.gutter {
+  max-width: 25%;
+  min-width: 25%;
+}
+
+.favItem {
+  background-color: rgb(230, 230, 230);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+}
+
+.favContainer {
+  background: rgb(236, 236, 236);
+  background: linear-gradient(
+    180deg,
+    rgba(236, 236, 236, 1) 0%,
+    rgba(218, 218, 218, 1) 26%,
+    rgba(171, 171, 171, 1) 100%
+  );
+  border-radius: 10px;
+  padding: 20px;
+  overflow: scroll;
+  height: 60vh;
+}
+
+.favContContainer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.favContContainer {
+  right: 0;
+}
+
+.catContContainer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.catContContainer {
+  left: 0;
+}
+
+.menuBtns {
+  margin: 0 0 20px 0;
+  visibility: hidden;
+}
+.catMenuBtn,
+.favMenuBtn {
+  padding: 10px;
+}
+
+.favDltBtn {
+  padding: 3px;
+  background-color: rgb(255, 89, 89);
+  border: none;
+  border-radius: 5px;
+  margin-left: 30px;
+  max-height: fit-content;
+}
+
+.placeHolderFav{
+  background-color: rgb(59, 59, 59);
+  color: white;
+  height: fit-content;
+  padding: 20px 20px 20px 20px;
+  border-radius: 10px;
+  font-weight: 400;
+  text-align: center;
+  justify-self: center;
+}
+
+.resultsContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 40px 0 40px;
+  justify-content: center;
+  padding: 10px;
+  align-self: center;
+  flex-grow: 3;
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;
   min-height: 70vh;
 }
 
-.font400,
+.font300,
 input,
 select,
 option,
@@ -204,16 +313,6 @@ input {
   border-radius: 2px;
   box-shadow: -2px 5px 5px black;
   margin: 0 0 20px 0;
-}
-
-.resultsContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 40px 0 40px;
-  justify-content: center;
-  padding: 10px;
-  max-width: 875px;
-  align-self: center;
 }
 
 .spotBody {
@@ -445,5 +544,38 @@ a:visited {
     width: 72px;
     height: 72px;
     opacity: 0;
+  }
+}
+
+/* MEDIA QUERIES */
+@media all and (min-width: 1460px) {
+  .favContContainer {
+    max-width: 25%;
+    min-width: 25%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    background-color: initial;
+    top: initial;
+    padding-top: 0px;
+  }
+}
+
+@media all and (min-width: 1100px) {
+  .catContContainer {
+    max-width: 25%;
+    min-width: 25%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    background-color: initial;
+    top: initial;
+    padding-top: 0px;
   }
 }

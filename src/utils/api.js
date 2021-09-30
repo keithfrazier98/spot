@@ -83,3 +83,4 @@ export async function getAllBusinesses(params, signal) {
   );
   return await fetchJson(url, signal);
 }
+

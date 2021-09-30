@@ -1,36 +1,79 @@
 import React, { useEffect } from "react";
-import { getAllCategories } from "./utils/api";
+import { getAllBusinesses, getAllCategories } from "./utils/api";
 import "./Home.css";
 
-
-function Categories({ setCategoriesResponseData, categoriesResponseData, loadingRipple }) {
+function Categories({
+  setCategoriesResponseData,
+  categoriesResponseData,
+  loadingRipple,
+  searchData,
+  getCoords,
+  setSearchData,
+  processRequest,
+  setUserMessage,
+}) {
   useEffect(() => {
     loadCategories();
-    //processAutoComplete({lat:"a",lon:"b",text:"c"})
-  }, []);
+  }, [searchData]);
 
   async function loadCategories() {
     const abortController = new AbortController();
     const signal = abortController.signal;
     const catArr = await getAllCategories(signal);
-    console.log(catArr);
     setCategoriesResponseData(catArr);
     return () => abortController.signal;
+  }
+
+  function searchBusinessesByCategory(event) {
+    const category = event.target.innerHTML;
+    const near_me = document.getElementById("coords");
+    const coords = searchData.latitude && searchData.longitute;
+
+    if (near_me.checked === false && coords === false) {
+      const sendRequest = function (mutationsList, observer) {
+        setTimeout(() => {
+          processRequest({ category: category });
+        }, [2000]);
+      };
+      setUserMessage({ message: "Getting your coordinates..." });
+      near_me.checked = true;
+      getCoords();
+      const targetNode = document.getElementById("location");
+      const config = { attributes: true, childList: false, subtree: false };
+      // Create an observer instance linked to the callback function
+      const observer = new MutationObserver(sendRequest);
+      // Start observing the target node for configured mutations
+      observer.observe(targetNode, config);
+    } else {
+      setSearchData(
+        { ...searchData, ["term"]: category },
+        processRequest({ category: category })
+      );
+    }
   }
 
   function formatCategory(responseData) {
     if (!responseData) return;
     return (
-      <li className="catItem">
-        <button className="catButton">{responseData}</button>
+      <li className="catItem" value={responseData}>
+        <button
+          onClick={searchBusinessesByCategory}
+          disabled={!searchData.latitude && !searchData.longitute }
+          className="catButton"
+        >
+          {responseData}
+        </button>
       </li>
     );
   }
 
   return (
-    <div className="flexCol contentContainer g3">
+    <div className="catContContainer">
       <div className="centerVself">
-        <h3>Categories</h3>
+        <h3>Categories</h3>{" "}
+      </div>
+      <div className="centerVself catMessage" style={searchData.longitude?{height:"0px"}:{height:"fit-content"}}>
+        <p>Click 'Near me' to use categories!</p>
       </div>
       <div className="catListDiv centerVself">
         <div className="divScroll">
