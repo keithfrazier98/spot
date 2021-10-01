@@ -11,6 +11,7 @@ function Categories({
   setSearchData,
   processRequest,
   setUserMessage,
+  closeNav
 }) {
   useEffect(() => {
     loadCategories();
@@ -68,7 +69,15 @@ function Categories({
   }
 
   return (
-    <div className="catContContainer">
+    <div className="catContContainer" id="catContContainer">
+       <button
+        className="catCloseBtn"
+        type="button"
+        data-for="catContContainer"
+        onClick={closeNav}
+      >
+        <ion-icon data-for="catContContainer" name="close-outline"></ion-icon>
+      </button>
       <div className="centerVself">
         <h3>Categories</h3>{" "}
       </div>

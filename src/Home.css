@@ -27,7 +27,10 @@ p {
 header {
   height: fit-content;
   padding: 30px;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  min-width: 100vh;
 }
 
 div > form {
@@ -36,9 +39,13 @@ div > form {
 
 footer {
   display: flex;
+  min-width: 100vw;
+  flex-direction: row;
   justify-content: center;
   color: rgb(136, 136, 136);
   font-family: "Montserrat", sans-serif;
+  height: fit-content;
+  position: absolute;
 }
 
 input {
@@ -58,24 +65,28 @@ form > button {
 ul {
   padding: 0px !important;
 }
+
+.font300,
+input,
+select,
+option,
+label,
+button {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 300;
+  padding: 0px;
+}
+
+select,
+option {
+  height: 40px;
+}
+
+input {
+  height: 36.03px;
+}
 /* CLASS BASED STYLES */
-
-.mainImg,
-.favImg {
-  margin: 0 15px 15px 15px;
-  box-shadow: -2px 5px 10px rgb(104, 104, 104);
-}
-
-.favImg {
-  height: 100px;
-  width: 100px;
-}
-
-.mainImg {
-  height: 150px;
-  width: 150px;
-}
-
+/* SCROLL TITLE STYLE */
 .ulScroll {
   font-family: "Montserrat", sans-serif;
   font-size: 35px;
@@ -93,6 +104,7 @@ ul {
   padding: 10px;
   list-style: none;
 }
+/*LOGO STYLE*/
 .logo {
   width: fit-content;
   height: 4em;
@@ -103,8 +115,10 @@ ul {
   justify-content: center;
   margin: 0 30px 0 0;
   box-shadow: -15px 10px 3px rgb(143, 143, 143);
+  align-self: center;
 }
 
+/* GENERAL STYLES */
 .spcBtw {
   justify-content: space-between;
 }
@@ -128,34 +142,7 @@ ul {
   flex-grow: 3;
 }
 
-.catButton {
-  height: 40px;
-  min-width: 100%;
-}
-
-.catItem {
-  min-width: 75%;
-}
-
-.divScroll {
-  overflow: scroll;
-  height: 60vh;
-}
-
-.catListDiv {
-  height: 60vh;
-  overflow: hidden;
-  max-width: 65%;
-  position: relative;
-  align-self: center;
-}
-.catMessage {
-  max-width: 65%;
-  height: fit-content;
-  overflow: hidden;
-  font-size: 0.75em;
-  text-align: center;
-}
+/*FILTER STYLES*/
 
 .filterList,
 .catList {
@@ -172,9 +159,22 @@ ul {
   margin: auto auto auto 20px;
 }
 
-.gutter {
-  max-width: 25%;
-  min-width: 25%;
+/*FAVORTIE BAR STYLES*/
+
+.mainImg,
+.favImg {
+  margin: 0 15px 15px 15px;
+  box-shadow: -2px 5px 10px rgb(104, 104, 104);
+}
+
+.mainImg {
+  height: 150px;
+  width: 150px;
+}
+
+.favDltBtn {
+  height: 100px;
+  width: 100px;
 }
 
 .favItem {
@@ -195,7 +195,7 @@ ul {
   border-radius: 10px;
   padding: 20px;
   overflow: scroll;
-  height: 60vh;
+  height: 80vh;
 }
 
 .favContContainer {
@@ -204,39 +204,17 @@ ul {
   position: fixed;
   z-index: 1;
   top: 0;
-  background-color: #111;
+  background-color: rgb(187, 187, 187);
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
 .favContContainer {
   right: 0;
-}
-
-.catContContainer {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-
-.catContContainer {
-  left: 0;
-}
-
-.menuBtns {
-  margin: 0 0 20px 0;
-  visibility: hidden;
-}
-.catMenuBtn,
-.favMenuBtn {
-  padding: 10px;
 }
 
 .favDltBtn {
@@ -248,7 +226,7 @@ ul {
   max-height: fit-content;
 }
 
-.placeHolderFav{
+.placeHolderFav {
   background-color: rgb(59, 59, 59);
   color: white;
   height: fit-content;
@@ -259,40 +237,100 @@ ul {
   justify-self: center;
 }
 
+.favCloseBtn,
+.catCloseBtn {
+  color: black;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  font-size: 40px;
+  top: 0;
+  position: absolute;
+}
+.favCloseBtn {
+  left: 0;
+}
+
+.catMenuBtn,
+.favMenuBtn {
+  visibility: visible;
+  padding: 10px;
+}
+
+/*CATEGORY STYLES*/
+/* catList are paired with filter bar styles (above)*/
+/* catMenuBtn style is paired with favorite bar styles (above)*/
+.catButton {
+  height: 40px;
+  min-width: 100%;
+}
+.catCloseBtn {
+  right: 0;
+}
+.catItem {
+  min-width: 75%;
+}
+
+.divScroll {
+  overflow: scroll;
+  height: fit-content;
+}
+
+.catContContainer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  background: rgb(236, 236, 236);
+  background-color: rgb(187, 187, 187);
+  transition: 0.5s;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  overflow: hidden;
+}
+.catListDiv {
+  height: fit-content;
+  overflow: hidden;
+  max-width: 65%;
+  position: relative;
+  align-self: center;
+}
+.catMessage {
+  max-width: 65%;
+  height: fit-content;
+  overflow: hidden;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.catContContainer {
+  left: 0;
+}
+
+/*RESULTS / SEARCH AREA STYLES*/
+.menuBtns {
+  margin: 0 0 20px 0;
+  visibility: visible;
+}
+
 .resultsContainer {
   display: flex;
   flex-direction: column;
-  margin: 0 40px 0 40px;
   justify-content: center;
   padding: 10px;
   align-self: center;
-  flex-grow: 3;
 }
-
+.allContentContainer {
+  display: flex;
+  flex-direction: row;
+}
 .contentContainer {
   display: flex;
   flex-direction: column;
   min-height: 70vh;
-}
-
-.font300,
-input,
-select,
-option,
-label,
-button {
-  font-family: "Montserrat", sans-serif !important;
-  font-weight: 300;
-  padding: 0px;
-}
-
-select,
-option {
-  height: 40px;
-}
-
-input {
-  height: 36.03px;
 }
 
 .formContainer {
@@ -375,7 +413,11 @@ a:visited {
   content: "";
   width: 100%;
   height: 30px;
-  background: linear-gradient(180deg, #ffffff, rgba(255, 142, 113, 0));
+  background: linear-gradient(
+    180deg,
+    rgb(187, 187, 187),
+    rgba(255, 142, 113, 0)
+  );
 }
 .catListDiv::after {
   left: 0;
@@ -385,7 +427,11 @@ a:visited {
   content: "";
   width: 100%;
   height: 30px;
-  background: linear-gradient(180deg, rgba(255, 142, 113, 0), #ffffff);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 142, 113, 0),
+    rgb(187, 187, 187)
+  );
 }
 
 /* FADE IN ANIMATION CLASS */
@@ -416,6 +462,14 @@ a:visited {
   position: relative;
   height: 40px;
   align-self: center;
+}
+
+.fade-in-image {
+  animation: fadeIn 2s;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s;
+  -o-animation: fadeIn 2s;
+  -ms-animation: fadeIn 2s;
 }
 @-webkit-keyframes scrollUp {
   from {
@@ -459,14 +513,6 @@ a:visited {
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
-}
-
-.fade-in-image {
-  animation: fadeIn 2s;
-  -webkit-animation: fadeIn 2s;
-  -moz-animation: fadeIn 2s;
-  -o-animation: fadeIn 2s;
-  -ms-animation: fadeIn 2s;
 }
 
 @keyframes fadeIn {
@@ -555,27 +601,75 @@ a:visited {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
     min-height: 70vh;
     background-color: initial;
     top: initial;
     padding-top: 0px;
+    z-index: 0;
+    height: 60vh;
+  }
+  .favMenuBtn,
+  .menuBtns {
+    visibility: hidden;
+  }
+  .resultsContainer {
+    margin: 0px 40px;
+    flex-grow: 3;
+  }
+
+  .favCloseBtn {
+    visibility: hidden;
   }
 }
 
-@media all and (min-width: 1100px) {
+@media all and (min-width: 1200px) {
+  .divScroll,
+  .catListDiv {
+    height: 60vh;
+  }
   .catContContainer {
     max-width: 25%;
     min-width: 25%;
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 70vh;
+    justify-content: initial;
+    min-height: 60vh;
     background-color: initial;
     top: initial;
     padding-top: 0px;
+    z-index: 0;
+  }
+  .catMenuBtn {
+    visibility: hidden;
+  }
+  .resultsContainer {
+    flex-grow: 2;
+  }
+
+  .catListDiv::before {
+    background: linear-gradient(180deg, #ffffff, rgba(255, 142, 113, 0));
+  }
+  .catListDiv::after {
+    background: linear-gradient(180deg, rgba(255, 142, 113, 0), #ffffff);
+  }
+
+  .catCloseBtn {
+    visibility: hidden;
+  }
+}
+
+@media all and (min-width: 620px) {
+  header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .logo {
+    align-self: initial;
+  }
+}
+
+@media all and (max-width: 1200px) {
+  .allContentContainer {
+    justify-content: center;
   }
 }

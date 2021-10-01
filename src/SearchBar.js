@@ -7,7 +7,7 @@ function SearchBar({
   setLoading,
   getCoords,
   processRequest,
-  loading
+  loading,
 }) {
   function modifySearch(event) {
     const name = event.target.name;
@@ -62,17 +62,45 @@ function SearchBar({
     setSearchData({ ...searchData, ["open_now"]: !searchData.open_now });
   }
 
+  function openNav(event) {
+  document.getElementById(event.target.dataset.for).style.width = "300px";
+  }
+
   return (
     <>
       <div className="formContainer">
-        <form onSubmit={loading ? (event) => {event.preventDefault()} :processRequest }>
+        <form
+          onSubmit={
+            loading
+              ? (event) => {
+                  event.preventDefault();
+                }
+              : processRequest
+          }
+        >
           <div className="flexCol">
             <div className="flexRow spcBtw menuBtns">
-              <button className="catMenuBtn">
-                <ion-icon name="list-outline"></ion-icon>
+              <button
+                className="catMenuBtn"
+                type="button"
+                data-for="catContContainer"
+                onClick={openNav}
+              >
+                <ion-icon
+                  data-for="catContContainer"
+                  name="list-outline"
+                ></ion-icon>
               </button>
-              <button className="favMenuBtn">
-                <ion-icon name="star-outline"></ion-icon>
+              <button
+                className="favMenuBtn"
+                type="button"
+                data-for="favContContainer"
+                onClick={openNav}
+              >
+                <ion-icon
+                  data-for="favContContainer"
+                  name="star-outline"
+                ></ion-icon>
               </button>
             </div>
             <div className="flexRow">

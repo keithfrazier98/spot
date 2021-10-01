@@ -41,36 +41,35 @@ function Home() {
 
   function getCoords() {
     setLoading(true);
-    const abortController = new AbortController
-      if (!searchData.near_me) {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((result) => {
-            setSearchData(
-              {
-                ...searchData,
-                latitude: result.coords.latitude,
-                longitude: result.coords.longitude,
-                near_me: true,
-              },
-              setLoading(false)
-            );
-          });
-        } else {
-          setUserMessage("Geolocation is not supported by this browser.");
-        }
-      } else {
-        console.log("resetting geolocation");
-        setSearchData({
-          ...searchData,
-          latitude: "",
-          longitude: "",
-          near_me: false,
+    const abortController = new AbortController();
+    if (!searchData.near_me) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((result) => {
+          setSearchData(
+            {
+              ...searchData,
+              latitude: result.coords.latitude,
+              longitude: result.coords.longitude,
+              near_me: true,
+            },
+            setLoading(false)
+          );
         });
-        setLoading(false);
+      } else {
+        setUserMessage("Geolocation is not supported by this browser.");
       }
+    } else {
+      console.log("resetting geolocation");
+      setSearchData({
+        ...searchData,
+        latitude: "",
+        longitude: "",
+        near_me: false,
+      });
+      setLoading(false);
+    }
 
-    
-    return () => abortController.abort()
+    return () => abortController.abort();
   }
 
   function validateNumber(phoneNumber) {
@@ -145,11 +144,15 @@ function Home() {
     }
   }
 
-  function deleteFavorite(event){
-    const index = event.target.id
-    const newFavorites = [...favorites]
-    newFavorites.splice(index,1)
-    setFavorites(newFavorites)
+  function deleteFavorite(event) {
+    const index = event.target.id;
+    const newFavorites = [...favorites];
+    newFavorites.splice(index, 1);
+    setFavorites(newFavorites);
+  }
+
+  function closeNav(event) {
+    document.getElementById(event.target.dataset.for).style.width = "0px";
   }
 
   const loadingRipple = (
@@ -179,7 +182,7 @@ function Home() {
           </ul>
         </div>
       </header>
-      <div className="flexRow">
+      <div className="allContentContainer">
         <Categories
           categoriesResponseData={categoriesResponseData}
           loadingRipple={loadingRipple}
@@ -189,6 +192,7 @@ function Home() {
           setSearchData={setSearchData}
           processRequest={processRequest}
           setUserMessage={setUserMessage}
+          closeNav={closeNav}
         />
         <div className="resultsContainer">
           <div className="contentContainer">
@@ -212,7 +216,11 @@ function Home() {
             />
           </div>
         </div>
-        <Favorites favorites={favorites} deleteFavorite={deleteFavorite} />
+        <Favorites
+          favorites={favorites}
+          deleteFavorite={deleteFavorite}
+          closeNav={closeNav}
+        />
       </div>
       <footer>powered by yelp-fusion</footer>
     </div>
