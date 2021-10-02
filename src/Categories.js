@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { getAllBusinesses, getAllCategories } from "./utils/api";
 import "./Home.css";
+import FilterOptions from "./FilterOptions";
 
 function Categories({
   setCategoriesResponseData,
@@ -11,7 +12,8 @@ function Categories({
   setSearchData,
   processRequest,
   setUserMessage,
-  closeNav
+  closeNav,
+  break875,
 }) {
   useEffect(() => {
     loadCategories();
@@ -59,7 +61,7 @@ function Categories({
       <li className="catItem" value={responseData}>
         <button
           onClick={searchBusinessesByCategory}
-          disabled={!searchData.latitude && !searchData.longitute }
+          disabled={!searchData.latitude && !searchData.longitute}
           className="catButton"
         >
           {responseData}
@@ -70,7 +72,7 @@ function Categories({
 
   return (
     <div className="catContContainer" id="catContContainer">
-       <button
+      <button
         className="catCloseBtn"
         type="button"
         data-for="catContContainer"
@@ -78,10 +80,23 @@ function Categories({
       >
         <ion-icon data-for="catContContainer" name="close-outline"></ion-icon>
       </button>
+      {break875 ? (
+        <FilterOptions
+          searchData={searchData}
+          setSearchData={setSearchData}
+          getCoords={getCoords}
+        />
+      ) : null}
+
       <div className="centerVself">
         <h3>Categories</h3>{" "}
       </div>
-      <div className="centerVself catMessage" style={searchData.longitude?{height:"0px"}:{height:"fit-content"}}>
+      <div
+        className="centerVself catMessage"
+        style={
+          searchData.longitude ? { height: "0px" } : { height: "fit-content" }
+        }
+      >
         <p>Click 'Near me' to use categories!</p>
       </div>
       <div className="catListDiv centerVself">

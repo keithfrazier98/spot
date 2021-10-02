@@ -5,13 +5,13 @@ h1 {
   font-weight: 100;
   color: white;
   align-self: center;
-  font-size: 40px;
+  font-size: 25px;
 }
 h2 {
   font-family: "Montserrat", sans-serif;
   align-self: center;
-  font-size: 35px;
   font-weight: 100;
+  font-size: 20px;
 }
 
 h3 {
@@ -26,15 +26,11 @@ p {
 
 header {
   height: fit-content;
-  padding: 30px;
   display: flex;
   flex-direction: column;
   align-content: center;
-  min-width: 100vh;
-}
-
-div > form {
-  margin: 30px 0 0 0;
+  min-width: 100vw;
+  padding: 10px;
 }
 
 footer {
@@ -45,11 +41,9 @@ footer {
   color: rgb(136, 136, 136);
   font-family: "Montserrat", sans-serif;
   height: fit-content;
-  position: absolute;
-}
-
-input {
-  margin: 0 0 0 20px;
+  position: relative;
+  bottom: 5vmin;
+  margin-top: 10px;
 }
 
 form > button {
@@ -77,19 +71,29 @@ button {
   padding: 0px;
 }
 
+.searchBarSelOpt {
+  min-width: 308px;
+}
+.searchBarInp {
+  min-width: 300px;
+}
+
 select,
 option {
   height: 40px;
+  align-self: center;
 }
 
 input {
+  margin-top: 20px;
   height: 36.03px;
 }
+
 /* CLASS BASED STYLES */
 /* SCROLL TITLE STYLE */
 .ulScroll {
   font-family: "Montserrat", sans-serif;
-  font-size: 35px;
+  font-size: 20px;
   font-weight: 100;
   float: right;
   margin: 0;
@@ -107,12 +111,11 @@ input {
 /*LOGO STYLE*/
 .logo {
   width: fit-content;
-  height: 4em;
+  height: 2.5em;
   border-radius: 50%;
   background-color: black;
   padding: 10px;
   display: inline-flex;
-  justify-content: center;
   margin: 0 30px 0 0;
   box-shadow: -15px 10px 3px rgb(143, 143, 143);
   align-self: center;
@@ -149,14 +152,36 @@ input {
   list-style: none;
 }
 
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .filterItem {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   text-align: center;
   vertical-align: middle;
 }
 
 .filterOption {
-  margin: auto auto auto 20px;
+  margin: 0 10px 0 10px;
+  align-self: center;
+}
+
+.filterSelect {
+  max-width: 60%;
+}
+
+.filterItemChecks {
+  display: flex;
+  flex-direction: row;
+}
+
+.filterItemSelects {
+  display: flex;
+  flex-direction: column;
 }
 
 /*FAVORTIE BAR STYLES*/
@@ -166,6 +191,10 @@ input {
   margin: 0 15px 15px 15px;
   box-shadow: -2px 5px 10px rgb(104, 104, 104);
 }
+.favImg{
+  height: 125px;
+  width: 125px;
+}
 
 .mainImg {
   height: 150px;
@@ -173,8 +202,7 @@ input {
 }
 
 .favDltBtn {
-  height: 100px;
-  width: 100px;
+  width: 100%;
 }
 
 .favItem {
@@ -273,7 +301,7 @@ input {
 
 .divScroll {
   overflow: scroll;
-  height: fit-content;
+  height: 40vh;
 }
 
 .catContContainer {
@@ -310,10 +338,14 @@ input {
   left: 0;
 }
 
-/*RESULTS / SEARCH AREA STYLES*/
+/*RESULTS & SEARCH AREA STYLES*/
 .menuBtns {
   margin: 0 0 20px 0;
   visibility: visible;
+  display: flex;
+  flex-direction: row;
+  max-width: 100vw;
+  justify-content: space-between;
 }
 
 .resultsContainer {
@@ -323,9 +355,13 @@ input {
   padding: 10px;
   align-self: center;
 }
+
 .allContentContainer {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  max-width: 100vw;
+  overflow: hidden;
 }
 .contentContainer {
   display: flex;
@@ -333,9 +369,15 @@ input {
   min-height: 70vh;
 }
 
+.inputField {
+  display: flex;
+  flex-direction: column;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;
+  min-width: 80vw;
 }
 
 .stars {
@@ -344,8 +386,8 @@ input {
 }
 
 .singleResult {
-  min-width: 614px;
-  max-width: 650px;
+  min-width: 80vw;
+  max-width: 80vw;
   padding: 15px;
   background-color: rgb(207, 207, 207);
   border-radius: 2px;
@@ -354,7 +396,8 @@ input {
 }
 
 .spotBody {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 .flexRow {
   display: flex;
@@ -473,12 +516,12 @@ a:visited {
 }
 @-webkit-keyframes scrollUp {
   from {
-    -webkit-transform: translateY(-20%);
-    transform: translateY(-20%);
+    -webkit-transform: translateY(-4%);
+    transform: translateY(-4%);
   }
   to {
-    -webkit-transform: translateY(-85%);
-    transform: translateY(-85%);
+    -webkit-transform: translateY(-87.3%);
+    transform: translateY(-87.3%);
   }
 }
 
@@ -655,21 +698,75 @@ a:visited {
   .catCloseBtn {
     visibility: hidden;
   }
+
+  .allContentContainer {
+    justify-content: inherit;
+  }
 }
 
 @media all and (min-width: 620px) {
   header {
     display: flex;
     flex-direction: row;
+    padding: 30px;
+    font-size: 35px;
+    height: 4em;
   }
 
   .logo {
     align-self: initial;
   }
+
+  .ulScroll,
+  h2 {
+    font-size: 35px;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
 }
 
-@media all and (max-width: 1200px) {
-  .allContentContainer {
-    justify-content: center;
+@media all and (min-width: 720px) {
+  .filterItem {
+    display: inline-flex;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .filterItemChecks {
+    flex-direction: row;
+  }
+
+  .filterItemSelects {
+    flex-direction: row;
+  }
+
+  .filterContainer {
+    flex-direction: row;
+  }
+  .inputField {
+    display: flex;
+    flex-direction: row;
+  }
+  input {
+    margin: 0 0 0 20px;
+  }
+
+  select,
+  option,
+  input {
+    min-width: unset;
+  }
+
+  .searchBarSelOpt,
+  .searchBarInp {
+    min-width: unset;
+  }
+}
+
+@media all and (min-width: 875px) {
+  .singleResult {
+    min-width: 614px;
+    max-width: 650px;
   }
 }

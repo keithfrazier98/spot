@@ -1,5 +1,5 @@
 import React from "react";
-import { getAutocompleteSuggestions } from "./utils/api";
+import FilterOptions from "./FilterOptions";
 
 function SearchBar({
   searchData,
@@ -8,6 +8,7 @@ function SearchBar({
   getCoords,
   processRequest,
   loading,
+  break875
 }) {
   function modifySearch(event) {
     const name = event.target.name;
@@ -20,50 +21,8 @@ function SearchBar({
       : setSearchData({ ...searchData, [name]: value });
   }
 
-  function modifyRadius(event) {
-    const value = event.target.value;
-    const milesArr = [value[0], value[1]];
-    const milesNum = Number(milesArr.join(""));
-    if (milesArr[0] === "5") {
-      setSearchData({ ...searchData, ["radius"]: 8046 });
-    } else {
-      setSearchData({
-        ...searchData,
-        ["radius"]: Math.trunc(1609.344 * milesNum),
-      });
-    }
-  }
-
-  function modifyPrice(event) {
-    let price;
-    switch (event.target.value) {
-      case "$":
-        price = "1";
-        break;
-      case "$$":
-        price = "1,2";
-        break;
-      case "$$$":
-        price = "1,2,3";
-        break;
-      case "$$$$":
-        price = "1,2,3,4";
-        break;
-      default:
-        console.error("SearchBar: default case occured, something is wrong.");
-
-        break;
-    }
-
-    setSearchData({ ...searchData, ["price"]: price });
-  }
-
-  function modifyOpenNow(event) {
-    setSearchData({ ...searchData, ["open_now"]: !searchData.open_now });
-  }
-
   function openNav(event) {
-  document.getElementById(event.target.dataset.for).style.width = "300px";
+    document.getElementById(event.target.dataset.for).style.width = "300px";
   }
 
   return (
@@ -79,7 +38,7 @@ function SearchBar({
           }
         >
           <div className="flexCol">
-            <div className="flexRow spcBtw menuBtns">
+            <div className="menuBtns">
               <button
                 className="catMenuBtn"
                 type="button"
@@ -103,10 +62,10 @@ function SearchBar({
                 ></ion-icon>
               </button>
             </div>
-            <div className="flexRow">
+            <div className="inputField searchBarSelOpt">
               <select
                 name="type"
-                className="fade-in-image"
+                className="fade-in-image searchBarSelOpt"
                 value={searchData.type}
                 onChange={modifySearch}
               >
@@ -118,7 +77,7 @@ function SearchBar({
                   {" "}
                   <label htmlFor="business"></label>
                   <input
-                    className="fade-in-image"
+                    className="fade-in-image searchBarSelOpt"
                     value={searchData.business}
                     name="business"
                     placeholder="search by name"
@@ -126,7 +85,7 @@ function SearchBar({
                   ></input>
                   <label htmlFor="location"></label>
                   <input
-                    className="fade-in-image"
+                    className="fade-in-image searchBarSelOpt"
                     value={
                       searchData.latitude && searchData.longitute
                         ? "checking near you"
@@ -142,7 +101,7 @@ function SearchBar({
               ) : (
                 <>
                   <input
-                    className="fade-in-image"
+                    className="fade-in-image searchBarSelOpt"
                     value={searchData.phone}
                     name="phone"
                     placeholder="search by phone"
@@ -158,65 +117,12 @@ function SearchBar({
           </div>
         </form>
       </div>
-      <div className="flexRow centerH">
-        <ul className="fade-in-image">
-          <li className="filterItem">
-            <label
-              htmlFor="coords"
-              style={{ marginLeft: "0" }}
-              className="filterOption"
-            >
-              Near me
-            </label>
-            <input
-              name="coords"
-              id="coords"
-              type="checkbox"
-              onChange={getCoords}
-            ></input>
-          </li>
-          <li className="filterItem">
-            <label htmlFor="open_now" className="filterOption">
-              Open now
-            </label>
-            <input
-              name="open_now"
-              type="checkbox"
-              onChange={modifyOpenNow}
-            ></input>
-          </li>
-          <li className="filterItem">
-            <label
-              htmlFor="price"
-              style={{ marginRight: "15px" }}
-              className="filterOption"
-            >
-              Price{"   "}
-            </label>
-            <select name="price" onChange={modifyPrice}>
-              <option>$</option>
-              <option>$$</option>
-              <option>$$$</option>
-              <option>$$$$</option>
-            </select>
-          </li>
-          <li className="filterItem">
-            <label
-              htmlFor="radius"
-              style={{ marginRight: "15px" }}
-              className="filterOption"
-            >
-              Distance
-            </label>
-            <select name="radius" onChange={modifyRadius}>
-              <option>5 miles</option>
-              <option>10 miles</option>
-              <option>15 miles</option>
-              <option>20 miles</option>
-            </select>
-          </li>
-        </ul>
-      </div>
+      {!break875?<FilterOptions
+        searchData={searchData}
+        setSearchData={setSearchData}
+        getCoords={getCoords}
+      />:null}
+      
     </>
   );
 }

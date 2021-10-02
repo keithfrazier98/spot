@@ -7,14 +7,6 @@ function Favorites({ favorites, deleteFavorite, closeNav }) {
       <div className="flexCol favItem" style={{ justifyContent: "center" }}>
         <div className="flexRow spcBtw">
           <t3>{name}</t3>{" "}
-          <button
-            className="favDltBtn"
-            id={index}
-            name="favContContainer"
-            onClick={deleteFavorite}
-          >
-            <ion-icon name="trash-outline"></ion-icon>
-          </button>
         </div>
         <div className="flexCol">
           <div
@@ -26,6 +18,15 @@ function Favorites({ favorites, deleteFavorite, closeNav }) {
           <p>{<a href={`tel:${phone}`}>{phone}</a>}</p>
           <p>{`${display_address}`}</p>
         </div>
+        <button
+            className="favDltBtn"
+            id={index}
+            style={{margin:"0"}}
+            name="favContContainer"
+            onClick={deleteFavorite}
+          >
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
       </div>
     );
   }
