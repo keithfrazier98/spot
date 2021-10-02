@@ -8,7 +8,6 @@ function SearchBar({
   getCoords,
   processRequest,
   loading,
-  break875
 }) {
   function modifySearch(event) {
     const name = event.target.name;
@@ -117,12 +116,13 @@ function SearchBar({
           </div>
         </form>
       </div>
-      {!break875?<FilterOptions
-        searchData={searchData}
-        setSearchData={setSearchData}
-        getCoords={getCoords}
-      />:null}
-      
+      <div className="searchFilters">
+        <FilterOptions
+          searchData={searchData}
+          setSearchData={setSearchData}
+          getCoords={getCoords}
+        />
+      </div>
     </>
   );
 }

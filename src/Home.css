@@ -1,5 +1,16 @@
 /*CSS SELECTOR STYLES*/
-
+.tooSmall {
+  font-size: 20px;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
 h1 {
   font-family: "Montserrat", sans-serif;
   font-weight: 100;
@@ -17,11 +28,18 @@ h2 {
 h3 {
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
+  margin: 0px 0px 0px 0px !important;
+  font-size: 20px;
 }
 p {
   font-family: "Montserrat", sans-serif;
   font-weight: 200;
   margin: 10px;
+  font-size: 15px;
+}
+
+span {
+  font-size: 12px !important;
 }
 
 header {
@@ -53,7 +71,7 @@ form > button {
   border: none;
   margin: 0 0 0 20px;
   align-self: center;
-  height: 40px;
+  min-height: 40px;
 }
 
 ul {
@@ -147,6 +165,16 @@ input {
 
 /*FILTER STYLES*/
 
+.catFilters {
+  visibility: visible;
+}
+
+.searchFilters {
+  visibility: hidden;
+  height: 0px;
+  overflow: hidden;
+}
+
 .filterList,
 .catList {
   list-style: none;
@@ -188,10 +216,11 @@ input {
 
 .mainImg,
 .favImg {
+  align-self: center;
   margin: 0 15px 15px 15px;
   box-shadow: -2px 5px 10px rgb(104, 104, 104);
 }
-.favImg{
+.favImg {
   height: 125px;
   width: 125px;
 }
@@ -339,6 +368,11 @@ input {
 }
 
 /*RESULTS & SEARCH AREA STYLES*/
+.singleResultChild {
+  display: flex;
+  flex-direction: column;
+}
+
 .menuBtns {
   margin: 0 0 20px 0;
   visibility: visible;
@@ -381,6 +415,7 @@ input {
 }
 
 .stars {
+  font-size: 15px;
   margin: 0 0 0 20px;
   color: black;
 }
@@ -398,6 +433,10 @@ input {
 .spotBody {
   display: flex;
   flex-direction: column;
+  visibility: hidden;
+  height: 0px;
+  overflow: hidden;
+
 }
 .flexRow {
   display: flex;
@@ -670,6 +709,7 @@ a:visited {
   .catListDiv {
     height: 60vh;
   }
+
   .catContContainer {
     max-width: 25%;
     min-width: 25%;
@@ -705,6 +745,11 @@ a:visited {
 }
 
 @media all and (min-width: 620px) {
+  .singleResultChild {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
   header {
     display: flex;
     flex-direction: row;
@@ -728,25 +773,31 @@ a:visited {
 }
 
 @media all and (min-width: 720px) {
+  .catFilters {
+    visibility: hidden;
+    height: 0px;
+    overflow: hidden;
+  }
+
+  .searchFilters {
+    visibility: visible;
+    height: fit-content;
+    overflow: unset;
+  }
   .filterItem {
     display: inline-flex;
     text-align: center;
     vertical-align: middle;
   }
-  .filterItemChecks {
+  .filterItemChecks,
+  .filterItemSelects,
+  .filterContainer,
+  .inputField {
     flex-direction: row;
   }
 
-  .filterItemSelects {
-    flex-direction: row;
-  }
-
-  .filterContainer {
-    flex-direction: row;
-  }
   .inputField {
     display: flex;
-    flex-direction: row;
   }
   input {
     margin: 0 0 0 20px;
@@ -754,13 +805,20 @@ a:visited {
 
   select,
   option,
-  input {
-    min-width: unset;
-  }
-
+  input,
   .searchBarSelOpt,
   .searchBarInp {
     min-width: unset;
+  }
+
+  h3 {
+    font-size: 25px;
+  }
+
+  span,
+  p,
+  .stars {
+    font-size: 20px;
   }
 }
 
@@ -770,3 +828,26 @@ a:visited {
     max-width: 650px;
   }
 }
+
+@media all and (min-width: 290px){
+  .tooSmall{
+    visibility: hidden;
+    overflow: hidden;
+    min-height: 0px;
+    max-height: 0px;
+    min-width: 0px;
+    z-index: 0;
+  }
+  .tooSmallT{
+    height: 0px;
+    width:0px;
+    overflow: hidden;
+  }
+
+  .spotBody{
+    visibility: visible;
+    height: fit-content;
+    overflow: hidden;
+  }
+
+};

@@ -7,16 +7,12 @@ function Results({
   userMessageElement,
   businessesResponseData,
   addFavorite,
-}) {
-  function formatSingleResult(responseData) {
-    if (!responseData) return;
-    const { image_url, name, categories, location, phone, price, rating } =
-      responseData;
 
-    const { display_address } = location;
+}) {
+  function formatStars(num) {
     let starRating;
 
-    switch (rating) {
+    switch (num) {
       case 1:
         starRating = <ion-icon name="star"></ion-icon>;
         break;
@@ -101,17 +97,27 @@ function Results({
         break;
     }
 
-    const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`
+    return starRating;
+  }
+
+  function formatSingleResultLG(responseData) {
+    if (!responseData) return;
+    const { image_url, name, categories, location, phone, price, rating } =
+      responseData;
+
+    const { display_address } = location;
+
+    const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`;
     return (
       <>
         <div className="singleResult">
-          <div className="flexRow g1">
+          <div className="singleResultChild">
             <img src={image_url} className="mainImg" alt="businessImg"></img>
             <div className="flexCol g2">
               <div className="flexRow spcBtw ">
-                <div className="flexRow">
-                  <t3>{name}</t3>
-                  <div className="stars">{starRating}</div>
+                <div className="flexRow" style={{ width: "fit-content" }}>
+                  <h3 style={{ width: "fit-content" }}>{name}</h3>
+                  <div className="stars">{formatStars(rating)}</div>
                 </div>
                 {<span>{price}</span>}
               </div>
@@ -127,12 +133,68 @@ function Results({
                   className="fav"
                   onClick={addFavorite}
                   data-basic-data={basicData}
-                  >
+                >
                   <ion-icon
                     className="centerH"
                     name="bookmark-outline"
                     data-basic-data={basicData}
-                    ></ion-icon>
+                  ></ion-icon>
+                </button>
+              </div>
+              <div className="flexRow"></div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  function formatSingleResultSM(responseData) {
+    if (!responseData) return;
+    const { image_url, name, categories, location, phone, price, rating } =
+      responseData;
+
+    const { display_address } = location;
+
+    const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`;
+    return (
+      <>
+        <div className="singleResult">
+          <div className="flexCol g1">
+            <h3 style={{ width: "fit-content", alignSelf: "center" }}>
+              {name}
+            </h3>
+            <img
+              src={image_url}
+              className="mainImg"
+              alt="businessImg"
+              style={{ alignSelf: "center" }}
+            ></img>
+            <div className="flexCol g2">
+              <div className="flexRow spcBtw ">
+                <div className="flexRow" style={{ width: "fit-content" }}>
+                  <div className="stars">{formatStars(rating)}</div>
+                </div>
+                {<span>{price}</span>}
+              </div>
+              <div className="flexRow">
+                {categories.map((obj) => {
+                  return <span className="categories">{obj.title}</span>;
+                })}
+              </div>
+              <p>{`${display_address}`}</p>
+              <div className="flexRow spcBtw">
+                <p>{<a href={`tel:${phone}`}>{phone}</a>}</p>
+                <button
+                  className="fav"
+                  onClick={addFavorite}
+                  data-basic-data={basicData}
+                >
+                  <ion-icon
+                    className="centerH"
+                    name="bookmark-outline"
+                    data-basic-data={basicData}
+                  ></ion-icon>
                 </button>
               </div>
               <div className="flexRow"></div>
@@ -150,10 +212,14 @@ function Results({
         : userMessage
         ? userMessageElement()
         : businessesResponseData && Array.isArray(businessesResponseData)
-        ? businessesResponseData.map((responseDataPoint) =>
-            formatSingleResult(responseDataPoint)
-          )
-        : formatSingleResult(businessesResponseData)}
+        ? false
+          ? businessesResponseData.map((responseDataPoint) =>
+              formatSingleResultSM(responseDataPoint)
+            )
+          : businessesResponseData.map((responseDataPoint) =>
+              formatSingleResultLG(responseDataPoint)
+            )
+        : formatSingleResultLG(businessesResponseData)}
     </div>
   );
 }

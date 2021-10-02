@@ -6,7 +6,7 @@ function Favorites({ favorites, deleteFavorite, closeNav }) {
     return (
       <div className="flexCol favItem" style={{ justifyContent: "center" }}>
         <div className="flexRow spcBtw">
-          <t3>{name}</t3>{" "}
+          <h3>{name}</h3>{" "}
         </div>
         <div className="flexCol">
           <div

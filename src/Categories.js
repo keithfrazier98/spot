@@ -13,7 +13,6 @@ function Categories({
   processRequest,
   setUserMessage,
   closeNav,
-  break875,
 }) {
   useEffect(() => {
     loadCategories();
@@ -80,13 +79,13 @@ function Categories({
       >
         <ion-icon data-for="catContContainer" name="close-outline"></ion-icon>
       </button>
-      {break875 ? (
+      <div className="catFilters">
         <FilterOptions
           searchData={searchData}
           setSearchData={setSearchData}
           getCoords={getCoords}
         />
-      ) : null}
+      </div>
 
       <div className="centerVself">
         <h3>Categories</h3>{" "}

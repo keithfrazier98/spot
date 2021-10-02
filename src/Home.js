@@ -29,18 +29,6 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [categoriesResponseData, setCategoriesResponseData] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  //const [break875, setBreak875] = useState(window.matchMedia("(max-width: 875px)").matches);
-  //console.log(break875)
-  function vpf (x){
-    console.log(x)
-  }
-
-  const vp = window.matchMedia("(max-width: 720px)")
-
-  vpf(vp)
-  //vp2.addEventListener("test2", vpf)
-  vp.addEventListener("test",vpf)
-
 
   useEffect(() => {
     if (searchData.near_me === false) {
@@ -176,69 +164,75 @@ function Home() {
   );
 
   return (
-    <div className="spotBody">
-      <header>
-        <div className="logo">
-          <h1>spot</h1>
-        </div>
-        <div className="flexRow" style={{justifyContent:"center"}}>
-          <h2>find your favorite</h2>
-          <div className="box">
-            <ul className="ulScroll">
-              <li className="item-1 liScroll">spot</li>
-              <li className="item-2 liScroll">doctor</li>
-              <li className="item-3 liScroll">bar</li>
-              <li className="item-4 liScroll">dojo</li>
-              <li className="item-5 liScroll">library</li>
-              <li className="item-6 liScroll">spot</li>
-            </ul>
-          </div>
-        </div>
-      </header>
-      <div className="allContentContainer">
-        <Categories
-          categoriesResponseData={categoriesResponseData}
-          loadingRipple={loadingRipple}
-          setCategoriesResponseData={setCategoriesResponseData}
-          searchData={searchData}
-          getCoords={getCoords}
-          setSearchData={setSearchData}
-          processRequest={processRequest}
-          setUserMessage={setUserMessage}
-          closeNav={closeNav}
-          //break875={break875}
-        />
-        <div className="resultsContainer">
-          <div className="contentContainer">
-            <SearchBar
-              searchData={searchData}
-              setSearchData={setSearchData}
-              setLoading={setLoading}
-              setBusinessesResponseData={setBusinessesResponseData}
-              setUserMessage={setUserMessage}
-              getCoords={getCoords}
-              loading={loading}
-              processRequest={processRequest}
-             // break875={break875}
-            />
-            <Results
-              loading={loading}
-              loadingRipple={loadingRipple}
-              userMessage={userMessage}
-              userMessageElement={userMessageElement}
-              businessesResponseData={businessesResponseData}
-              addFavorite={addFavorite}
-            />
-          </div>
-        </div>
-        <Favorites
-          favorites={favorites}
-          deleteFavorite={deleteFavorite}
-          closeNav={closeNav}
-        />
+    <>
+      <div className="tooSmall">
+        <h6 className="tooSmallT">
+          Your screen is too small for all this data!
+        </h6>
+        <p className="tooSmallT">(Min Screen Size: 290px)</p>
       </div>
-      <footer>powered by yelp-fusion</footer>
-    </div>
+      <div className="spotBody">
+        <header>
+          <div className="logo">
+            <h1>spot</h1>
+          </div>
+          <div className="flexRow" style={{ justifyContent: "center" }}>
+            <h2>find your favorite</h2>
+            <div className="box">
+              <ul className="ulScroll">
+                <li className="item-1 liScroll">spot</li>
+                <li className="item-2 liScroll">doctor</li>
+                <li className="item-3 liScroll">bar</li>
+                <li className="item-4 liScroll">dojo</li>
+                <li className="item-5 liScroll">library</li>
+                <li className="item-6 liScroll">spot</li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <div className="allContentContainer">
+          <Categories
+            categoriesResponseData={categoriesResponseData}
+            loadingRipple={loadingRipple}
+            setCategoriesResponseData={setCategoriesResponseData}
+            searchData={searchData}
+            getCoords={getCoords}
+            setSearchData={setSearchData}
+            processRequest={processRequest}
+            setUserMessage={setUserMessage}
+            closeNav={closeNav}
+          />
+          <div className="resultsContainer">
+            <div className="contentContainer">
+              <SearchBar
+                searchData={searchData}
+                setSearchData={setSearchData}
+                setLoading={setLoading}
+                setBusinessesResponseData={setBusinessesResponseData}
+                setUserMessage={setUserMessage}
+                getCoords={getCoords}
+                loading={loading}
+                processRequest={processRequest}
+              />
+              <Results
+                loading={loading}
+                loadingRipple={loadingRipple}
+                userMessage={userMessage}
+                userMessageElement={userMessageElement}
+                businessesResponseData={businessesResponseData}
+                addFavorite={addFavorite}
+              />
+            </div>
+          </div>
+          <Favorites
+            favorites={favorites}
+            deleteFavorite={deleteFavorite}
+            closeNav={closeNav}
+          />
+        </div>
+        <footer>powered by yelp-fusion</footer>
+      </div>
+    </>
   );
 }
 
