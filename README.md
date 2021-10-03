@@ -24,9 +24,8 @@ With _**Spot**_ you can do quite a ✋full of things:
 
 - On very small devises (pretty much anything smaller than an ipad) the filters will also collapse into the same side bar as the catagories.
 
-<img src="spotSmCat.png" alt="spot small screen category tab" width=300px>
-<img src="spotSm.png" alt="spot small screen" width=300px>
-<img src="spotSmFav.png" alt="spot small screen fav tab" width=300px>
+<img src="spotSm.png" alt="spot small screens">
+
 
 - On the right side of the screen, the favorites area is where you can save and delete your favorite spots. By clicking the bookmark icon on the search results, the business clicked will be pushed into the favorites area. The favorites area will also collapse into a sidebar on smaller screens, and a button on the top right side of the screen will appear.
 
