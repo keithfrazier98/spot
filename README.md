@@ -1,6 +1,8 @@
 # ⚫⚪ Spot ⚫⚪
 
-    This super cool application is pretty much a yelp clone (minus a few features). Using the yelp-fusion package which utilizes the Yelp API, this app accesses the Yelp database of businesses, restaurants, parks, etc. Yelp, yelp, yup!
+    This super cool application is pretty much a yelp clone (minus a few features). 
+    Using the yelp-fusion package which utilizes the Yelp API, this app accesses 
+    the Yelp database of businesses, restaurants, parks, etc. Yelp, yelp, yup!
 
 ![spot img](spot.png)
 
