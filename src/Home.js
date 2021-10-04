@@ -57,8 +57,6 @@ function Home() {
         setUserMessage("Geolocation is not supported by this browser.");
       }
     } else {
-      console.log("got skipped")
-
       setSearchData({
         ...searchData,
         latitude: "",
@@ -179,12 +177,24 @@ function Home() {
             <h2>find your favorite</h2>
             <div className="box">
               <ul className="ulScroll">
-                <li className="item-1 liScroll">spot</li>
-                <li className="item-2 liScroll">doctor</li>
-                <li className="item-3 liScroll">bar</li>
-                <li className="item-4 liScroll">dojo</li>
-                <li className="item-5 liScroll">library</li>
-                <li className="item-6 liScroll">spot</li>
+                <li className="item-1 liScroll" key="1">
+                  spot
+                </li>
+                <li className="item-2 liScroll" key="2">
+                  doctor
+                </li>
+                <li className="item-3 liScroll" key="3">
+                  bar
+                </li>
+                <li className="item-4 liScroll" key="4">
+                  dojo
+                </li>
+                <li className="item-5 liScroll" key="5">
+                  library
+                </li>
+                <li className="item-6 liScroll" key="6">
+                  spot
+                </li>
               </ul>
             </div>
           </div>
