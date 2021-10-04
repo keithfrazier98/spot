@@ -2,13 +2,16 @@
 
     This super cool application is pretty much a yelp clone (minus a few features). 
     Using the yelp-fusion package which utilizes the Yelp API, this app accesses 
-    the Yelp database of businesses, restaurants, parks, etc. Yelp, yelp, yup!
+    the Yelp database of businesses, restaurants, parks, etc.
+
+    Live Website:https://spot-beta.vercel.app/
 
 ![spot img](spot.png)
 
 ## 🖱️ Tech and structure 💻
 
 - This is a primarily front-end project, with a small back-end just for making requests to the Yelp API.
+- Backend Repository: https://github.com/keithfrazier98/spot-backend
 
 - Entirely coded in **vanilla CSS** as a practice project, spot is entirely responsive from 290px up. Who has a screen smaller than 320px anyway right?
 
