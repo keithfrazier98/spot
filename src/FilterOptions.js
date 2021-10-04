@@ -61,6 +61,7 @@ function FilterOptions({ setSearchData, searchData, getCoords }) {
               type="checkbox"
               onChange={getCoords}
               className="filterSelect"
+              checked={searchData.near_me}
             ></input>
             <label htmlFor="open_now" className="filterOption">
               Open now

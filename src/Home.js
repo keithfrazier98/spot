@@ -19,7 +19,7 @@ function Home() {
     price: "",
     radius: 8046,
     term: "",
-    near_me: false,
+    near_me: true,
   };
   const [businessesResponseData, setBusinessesResponseData] = useState(false);
   const [searchData, setSearchData] = useState(initalSearchData);
@@ -31,17 +31,16 @@ function Home() {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    if (searchData.near_me === false) {
+    if (!searchData.latitude && !searchData.longitude) {
       setLoading(true);
       getCoords();
-      document.getElementById("coords").checked = true;
     }
   }, []);
 
   function getCoords() {
     setLoading(true);
     const abortController = new AbortController();
-    if (!searchData.near_me) {
+    if (!searchData.latitude && !searchData.longitude) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((result) => {
           setSearchData(
@@ -58,7 +57,8 @@ function Home() {
         setUserMessage("Geolocation is not supported by this browser.");
       }
     } else {
-      console.log("resetting geolocation");
+      console.log("got skipped")
+
       setSearchData({
         ...searchData,
         latitude: "",
@@ -67,7 +67,6 @@ function Home() {
       });
       setLoading(false);
     }
-
     return () => abortController.abort();
   }
 
@@ -167,7 +166,7 @@ function Home() {
     <>
       <div className="tooSmall">
         <h6 className="tooSmallT">
-          Your screen is too small for all this data!
+          Your screen is too small for all this website!
         </h6>
         <p className="tooSmallT">(Min Screen Size: 290px)</p>
       </div>

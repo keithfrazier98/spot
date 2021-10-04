@@ -7,7 +7,6 @@ function Results({
   userMessageElement,
   businessesResponseData,
   addFavorite,
-
 }) {
   function formatStars(num) {
     let starRating;
@@ -100,7 +99,7 @@ function Results({
     return starRating;
   }
 
-  function formatSingleResultLG(responseData) {
+  function formatSingleResultLG(responseData, index1) {
     if (!responseData) return;
     const { image_url, name, categories, location, phone, price, rating } =
       responseData;
@@ -110,7 +109,7 @@ function Results({
     const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`;
     return (
       <>
-        <div className="singleResult">
+        <div className="singleResult" key={index1}>
           <div className="singleResultChild">
             <img src={image_url} className="mainImg" alt="businessImg"></img>
             <div className="flexCol g2">
@@ -122,64 +121,12 @@ function Results({
                 {<span>{price}</span>}
               </div>
               <div className="flexRow">
-                {categories.map((obj) => {
-                  return <span className="categories">{obj.title}</span>;
-                })}
-              </div>
-              <p>{`${display_address}`}</p>
-              <div className="flexRow spcBtw">
-                <p>{<a href={`tel:${phone}`}>{phone}</a>}</p>
-                <button
-                  className="fav"
-                  onClick={addFavorite}
-                  data-basic-data={basicData}
-                >
-                  <ion-icon
-                    className="centerH"
-                    name="bookmark-outline"
-                    data-basic-data={basicData}
-                  ></ion-icon>
-                </button>
-              </div>
-              <div className="flexRow"></div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  function formatSingleResultSM(responseData) {
-    if (!responseData) return;
-    const { image_url, name, categories, location, phone, price, rating } =
-      responseData;
-
-    const { display_address } = location;
-
-    const basicData = `{"name":"${name}", "display_address":"${display_address}", "phone":"${phone}", "image_url":"${image_url}"}`;
-    return (
-      <>
-        <div className="singleResult">
-          <div className="flexCol g1">
-            <h3 style={{ width: "fit-content", alignSelf: "center" }}>
-              {name}
-            </h3>
-            <img
-              src={image_url}
-              className="mainImg"
-              alt="businessImg"
-              style={{ alignSelf: "center" }}
-            ></img>
-            <div className="flexCol g2">
-              <div className="flexRow spcBtw ">
-                <div className="flexRow" style={{ width: "fit-content" }}>
-                  <div className="stars">{formatStars(rating)}</div>
-                </div>
-                {<span>{price}</span>}
-              </div>
-              <div className="flexRow">
-                {categories.map((obj) => {
-                  return <span className="categories">{obj.title}</span>;
+                {categories.map((obj, index2) => {
+                  return (
+                    <span key={index2} className="categories">
+                      {obj.title}
+                    </span>
+                  );
                 })}
               </div>
               <p>{`${display_address}`}</p>
@@ -212,14 +159,10 @@ function Results({
         : userMessage
         ? userMessageElement()
         : businessesResponseData && Array.isArray(businessesResponseData)
-        ? false
-          ? businessesResponseData.map((responseDataPoint) =>
-              formatSingleResultSM(responseDataPoint)
-            )
-          : businessesResponseData.map((responseDataPoint) =>
-              formatSingleResultLG(responseDataPoint)
-            )
-        : formatSingleResultLG(businessesResponseData)}
+        ? businessesResponseData.map((responseDataPoint, index) =>
+            formatSingleResultLG(responseDataPoint, index)
+          )
+        : formatSingleResultLG(businessesResponseData, 0)}
     </div>
   );
 }

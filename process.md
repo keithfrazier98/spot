@@ -33,3 +33,10 @@ footer
 main body 
 - dual search bars for name and area 
 - near me button
+
+todo:
+add functionality that will send error messages when the user isnt connected to wifi, the requests should timeout after about 6 seconds
+
+add auto complete functionality
+
+add reviews on a drop down button for the restaurants

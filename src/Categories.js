@@ -32,7 +32,7 @@ function Categories({
     const coords = searchData.latitude && searchData.longitute;
 
     if (near_me.checked === false && coords === false) {
-      const sendRequest = function (mutationsList, observer) {
+      const sendRequest = function () {
         setTimeout(() => {
           processRequest({ category: category });
         }, [2000]);
@@ -54,10 +54,10 @@ function Categories({
     }
   }
 
-  function formatCategory(responseData) {
+  function formatCategory(responseData, index) {
     if (!responseData) return;
     return (
-      <li className="catItem" value={responseData}>
+      <li className="catItem" key={index} value={responseData}>
         <button
           onClick={searchBusinessesByCategory}
           disabled={!searchData.latitude && !searchData.longitute}
@@ -102,7 +102,9 @@ function Categories({
         <div className="divScroll">
           <ul className="catList">
             {categoriesResponseData ? (
-              categoriesResponseData.map((cat) => formatCategory(cat))
+              categoriesResponseData.map((cat, index) =>
+                formatCategory(cat, index)
+              )
             ) : (
               <div className="catItem centerVself">{loadingRipple}</div>
             )}
