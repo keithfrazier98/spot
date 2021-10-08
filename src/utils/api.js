@@ -78,6 +78,7 @@ export async function getAllBusinesses(params, signal) {
     radius,
     term,
   } = params;
+  console.log(params)
   const url = new URL(
     `${API_BASE_URL}/businesses/search?latitude=${latitude}&longitude=${longitude}&open_now=${open_now}&location=${location}&price=${price}&sort_by=${sort_by}&radius=${radius}&term=${term}`
   );

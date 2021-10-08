@@ -48,8 +48,8 @@ function Categories({
       observer.observe(targetNode, config);
     } else {
       setSearchData(
-        { ...searchData, ["term"]: category },
-        processRequest({ category: category })
+        { ...searchData, ["term"]: category ,["type"]: "name and location", ["phone"]:"" },
+        processRequest({ category: category})
       );
     }
   }
