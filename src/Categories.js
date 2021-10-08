@@ -54,13 +54,22 @@ function Categories({
     }
   }
 
+  const toggleDisabled = ()=>{
+    const location = searchData.location
+    if (location) return false
+    const coordinates = searchData.latitude && searchData.longitude
+    if (coordinates) return false
+    return true
+  }
+
   function formatCategory(responseData, index) {
+
     if (!responseData) return;
     return (
       <li className="catItem" key={index} value={responseData}>
         <button
           onClick={searchBusinessesByCategory}
-          disabled={!searchData.latitude && !searchData.longitute}
+          disabled={toggleDisabled()}
           className="catButton"
         >
           {responseData}
@@ -93,10 +102,10 @@ function Categories({
       <div
         className="centerVself catMessage"
         style={
-          searchData.longitude ? { height: "0px" } : { height: "fit-content" }
+          !toggleDisabled() ? { height: "0px" } : { height: "fit-content" }
         }
       >
-        <p>Click 'Near me' to use categories!</p>
+        <p>Click 'Near me' or enter a location to search categories!</p>
       </div>
       <div className="catListDiv centerVself">
         <div className="divScroll">
