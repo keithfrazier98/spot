@@ -113,12 +113,14 @@ function Results({
           <div className="singleResultChild">
             <img src={image_url} className="mainImg" alt="businessImg"></img>
             <div className="flexCol g2">
-              <div className="flexRow spcBtw ">
+              <div className="titleStarsPrice">
                 <div className="flexRow" style={{ width: "fit-content" }}>
                   <h3 style={{ width: "fit-content" }}>{name}</h3>
-                  <div className="stars">{formatStars(rating)}</div>
                 </div>
-                {<span>{price}</span>}
+                <div className="flexRow" style={{justifyContent:"end"}}>
+                  <div className="stars" style={{marginRight:"15px"}}>{formatStars(rating)}</div>
+                  {<span>{price}</span>}
+                </div>
               </div>
               <div className="flexRow">
                 {categories.map((obj, index2) => {

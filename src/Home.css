@@ -30,6 +30,7 @@ h3 {
   font-weight: 300;
   margin: 0px 0px 0px 0px !important;
   font-size: 20px;
+  max-width: 245px;
 }
 p {
   font-family: "Montserrat", sans-serif;
@@ -368,6 +369,11 @@ input {
 }
 
 /*RESULTS & SEARCH AREA STYLES*/
+.titleStarsPrice{
+  display: flex;
+  flex-direction: column;
+}
+
 .singleResultChild {
   display: flex;
   flex-direction: column;
@@ -773,6 +779,11 @@ a:visited {
 }
 
 @media all and (min-width: 720px) {
+  .titleStarsPrice{
+    display: flex;
+    flex-direction: row;
+  }
+
   .catFilters {
     visibility: hidden;
     height: 0px;
