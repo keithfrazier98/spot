@@ -4,7 +4,8 @@
     Using the yelp-fusion package which utilizes the Yelp API, this app accesses 
     the Yelp database of businesses, restaurants, parks, etc.
 
-    Live Website:https://spot-beta.vercel.app/
+Live Website: 
+https://spot-beta.vercel.app/
 
 ![spot-img](spot.png)
 
