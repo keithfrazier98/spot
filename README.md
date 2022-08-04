@@ -7,7 +7,7 @@
 Live Website: 
 https://spot-beta.vercel.app/
 
-![spot-img](spot.png)
+![spot-img](https://github.com/keithfrazier98/spot/blob/main/spot.png)
 
 ## 🖱️ Tech and structure 💻
 
@@ -30,7 +30,9 @@ With _**Spot**_ you can do quite a ✋full of things:
 
 - On very small devices (pretty much anything smaller than an iPad) the filters will also collapse into the same sidebar as the categories.
 
-![spot-all-sm](spotSm.png)
+> Below is 3 seperate images
+
+![spot-all-sm](https://github.com/keithfrazier98/spot/blob/main/spotSm.png)
 
 
 - On the right side of the screen, the favorites area is where you can save and delete your favorite spots. By clicking the bookmark icon on the search results, the business clicked will be pushed into the favorites area. The favorites area will also collapse into a sidebar on smaller screens, and a button on the top right side of the screen will appear.
